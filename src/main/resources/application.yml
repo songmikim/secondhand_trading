@@ -4,6 +4,11 @@ server:
     session.cookie.name: b8a5f3fb
 
 spring:
+  # flyway 설정
+  flyway:
+    enabled: true
+    baselineOnMigrate: true
+
   # 데이터베이스 설정
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
