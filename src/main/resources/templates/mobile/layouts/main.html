@@ -16,6 +16,7 @@
           th:href="@{/mobile/css/{css}.css?v={v}(css=${cssFile}, v=${@utils.version()})}">
     <th:block layout:fragment="addCss"></th:block>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script th:src="@{/common/js/common.js?v={v}(v=${@utils.version()})}"></script>
     <script th:each="jsFile : ${addCommonScript}" th:src="@{/common/js/{js}.js?v={v}(js=${jsFile}, v=${@utils.version()})}"></script>
     <th:block layout:fragment="addCommonScript"></th:block>
@@ -26,9 +27,9 @@
     <title th:if="${pageTitle != null}" th:text="${pageTitle}"></title>
 </head>
 <body>
-<header th:replace="~{mobile/outlines/_header::common}"></header>
-<main layout:fragment="content"></main>
-<footer th:replace="~{mobile/outlines/_footer::common}"></footer>
-<iframe name="ifrmProcess" class="dn"></iframe>
+    <header th:replace="~{mobile/outlines/_header::common}"></header>
+    <main layout:fragment="content"></main>
+    <footer th:replace="~{mobile/outlines/_footer::common}"></footer>
+    <iframe name="ifrmProcess" class="dn"></iframe>
 </body>
 </html>

@@ -2,7 +2,6 @@ package org.koreait.member.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.koreait.global.exceptions.script.AlertException;
 import org.koreait.global.libs.Utils;
 import org.koreait.member.services.JoinService;
 import org.koreait.member.validators.JoinValidator;
@@ -19,6 +18,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
+@SessionAttributes("requestLogin")
 public class MemberController {
 
     private final Utils utils;
@@ -30,6 +30,10 @@ public class MemberController {
         return List.of("member/style");
     }
 
+    @ModelAttribute("requestLogin")
+    public RequestLogin requestLogin(){
+        return new RequestLogin();
+    }
     // 회원가입 양식
     @GetMapping("/join")
     public String join(@ModelAttribute RequestJoin form, Model model) {
@@ -57,16 +61,23 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String login(@ModelAttribute RequestLogin form, Model model) {
+    public String login(@ModelAttribute RequestLogin form, Errors errors, Model model) {
         commonProcess("login", model);
 
-        boolean result = false;
-        if(!result){
-            //throw new MemberNotFoundException();
-            //throw new UnAuthorizedException();
-            throw new AlertException("테스트 에러!!!", HttpStatus.BAD_REQUEST);
+        /* 검증 실패 처리 S*/
+        List<String > fieldErrors = form.getFieldErrors();
+        if (fieldErrors != null){
+           fieldErrors.forEach( s -> {
+               // 0 - 필드, 1 - 에러코드
+               String[] value = s.split("_");
+               errors.rejectValue(value[0], value[1]);
+           });
         }
-
+        List<String> globalErrors = form.getGlobalErrors();
+        if(globalErrors != null) {
+            globalErrors.forEach(errors::reject);
+        }
+        /* 검증 실패 처리 E*/
         return utils.tpl("member/login");
     }
 
