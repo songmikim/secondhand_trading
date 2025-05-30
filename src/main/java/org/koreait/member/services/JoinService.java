@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
+
 @Lazy
 @Service
 @RequiredArgsConstructor
@@ -35,6 +37,7 @@ public class JoinService {
         Member member = modelMapper.map(form, Member.class);
         member.setPassword(hash);
         member.setMobile(mobile);
+        member.setCredentialChangedAt(LocalDateTime.now());
 
         repository.save(member);
     }

@@ -5,7 +5,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.koreait.member.controllers.RequestLogin;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.util.StringUtils;
@@ -23,6 +26,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
     * */
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+        System.out.println("exception:" + exception);
 
         HttpSession session = request.getSession();
         RequestLogin form = (RequestLogin) session.getAttribute("requestLogin");
@@ -56,6 +60,18 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             if(fieldErrors.isEmpty()){ // 필수 항목은 다 있지만 이메일 또는 비밀번호가 불일치
                 globalErrors.add("Authentication.bad.credential");
             }
+        }
+
+        if(exception instanceof DisabledException){// 탈퇴한 회원인 경우
+            globalErrors.add("Authentication.disabled");
+        } else if (exception instanceof AccountExpiredException) {
+            globalErrors.add("Authentication.account.expired");
+        }else if(exception instanceof LockedException){
+            globalErrors.add("Authentication.account.locked");
+        }else if(exception instanceof BadCredentialsException){ // 비밀번호가 만료된 경우
+            // 비밀번호 변경 페이지로 이동
+            response.sendRedirect(request.getContextPath() + "/member/password");
+            return;
         }
 
         session.setAttribute("requestLogin", form);

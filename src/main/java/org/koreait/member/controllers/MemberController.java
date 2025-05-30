@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.koreait.global.libs.Utils;
 import org.koreait.member.services.JoinService;
 import org.koreait.member.validators.JoinValidator;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -44,7 +43,6 @@ public class MemberController {
 
     // 회원가입 처리
     @PostMapping("/join")
-    @ResponseStatus(HttpStatus.CREATED) // 응답 코드 201
     public String joinPs(@Valid RequestJoin form, Errors errors, Model model) {
         commonProcess("join", model);
 
@@ -81,6 +79,19 @@ public class MemberController {
         return utils.tpl("member/login");
     }
 
+    /*
+    * 비밀번호 만료시 변경 페이지
+    *
+    * @param model
+    * @return
+    * */
+    @GetMapping("/password")
+    public String password(Model model){
+        commonProcess("password", model);
+
+        return utils.tpl("member/password");
+    }
+
     /**
      * 현재 컨트롤러의 공통 처리 부분
      *
@@ -106,4 +117,31 @@ public class MemberController {
         model.addAttribute("addScript", addScript);
         model.addAttribute("pageTitle", pageTitle);
     }
+
+//    @ResponseBody
+//    @GetMapping("/test")
+//    public void test(Principal principal) {
+//        String email = principal.getName();
+//        System.out.println("email:" + email);
+//    }
+
+//    @ResponseBody
+//    @GetMapping("/test")
+//    public void test(@AuthenticationPrincipal MemberInfo memberInfo) {
+//        System.out.println("memberInfo:" + memberInfo);
+//    }
+
+//    @ResponseBody
+//    @GetMapping("/test")
+//    public void test() {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        System.out.println("인증상태:" + auth.isAuthenticated());
+//        System.out.println("Principle:" + auth.getPrincipal());
+//    }
+
+//    @ResponseBody
+//    @GetMapping("/test")
+//    public void test() {
+//        System.out.printf("로그인:%s, 관리자여부:%s, 회원정보:%s%n", memberUtil.isLogin(), memberUtil.isAdmin(), memberUtil.getMember());
+//    }
 }
