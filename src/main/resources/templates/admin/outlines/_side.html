@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <aside th:fragment="menus"></aside>
+<aside th:fragment="menus">
   <a th:href="@{/admin/config}">
     <i class="xi-cog"></i>
     사이트 설정
   </a>
   <a th:href="@{/admin/member}">
     <i class="xi-user-o"></i>
-    회원 관리
+    회원관리
   </a>
+</aside>
 </html>

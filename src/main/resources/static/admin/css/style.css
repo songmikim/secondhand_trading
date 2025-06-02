@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
-
-*{
+* {
     box-sizing: border-box;
     outline: none;
     font-family: "Nanum Gothic", sans-serif;
 }
+
 html {
-    font-size: 13px
+    font-size: 13px;
 }
 
 body {
@@ -19,10 +19,10 @@ a {
     text-decoration: none;
 }
 
-ol, ul{
+ol, ul {
     list-style: none;
-    padding:0;
-    margin:0;
+    padding: 0;
+    margin: 0;
 }
 
 li, dl, dt, dd {
@@ -36,9 +36,9 @@ img {
 
 /* 관리자 기본 레이아웃 구성 S */
 header {
-    height: 120px;
+    height: 80px;
     background: #fff;
-    border-bottom: 5px solid #000;
+    border-bottom: 3px solid #000;
 }
 
 main {
@@ -48,11 +48,13 @@ main {
 main > aside {
     width: 200px;
     background: #d5d5d5;
-    min-height: 850px
-    margin-right: 30px
+    min-height: 850px;
+    margin-right: 15px;
 }
 
-main > #main-content {
+main > .main-content {
     flex-grow: 1;
+
 }
+
 /* 관리자 기본 레이아웃 구성 E */
