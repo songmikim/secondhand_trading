@@ -32,7 +32,10 @@
 <header th:replace="~{admin/outlines/_header::common}"></header>
 <main>
     <aside th:replace="~{admin/outlines/_side::menus}"></aside>
-    <section class="main-content" layout:fragment="content"></section>
+    <section class="main-content">
+        <nav th:replace="~{admin/outlines/_submenu::menus}"></nav>
+        <section  layout:fragment="content"></section>
+    </section>
 </main>
 <footer th:replace="~{admin/outlines/_footer::common}"></footer>
 <iframe name="ifrmProcess" class="dn"></iframe>

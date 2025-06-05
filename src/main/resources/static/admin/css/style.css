@@ -58,3 +58,38 @@ main > .main-content {
 }
 
 /* 관리자 기본 레이아웃 구성 E */
+
+/* 메뉴 공통 S */
+main > aside a {
+    display: block;
+    padding: 25px 10px
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-bottom: 1px solid #212121;
+}
+main > aside a.on {
+    background: #212121;
+    color: #fff;
+}
+
+main > .main-content > nav {
+    box-shadow: 2px 2px 10px #212121;
+    margin: 30px 0;
+    display: flex;
+    height: 50px
+    background: #fff;
+    border-radius: 5px;
+}
+main > .main-content > nav a {
+    line-height: 50px;
+    font-size: 1.3rem;
+    padding: 0 35px;
+}
+
+main > .main-content > nav a.on{
+    background: #212121;
+    color: #fff;
+}
+
+/* 메뉴 공통 E */
