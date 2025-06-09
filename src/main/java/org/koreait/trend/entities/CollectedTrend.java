@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-public class NewsTrend {
+public class CollectedTrend {
     private String image;
     private Map<String, Integer> keywords;
 }

@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<aside th:fragment="menus">
-  <a th:href="@{/admin/config}" th:classappend="${mainCode == 'config'} ? 'on'">
-    <i class="xi-cog"></i>
-    사이트 설정
-  </a>
-  <a th:href="@{/admin/member}" th:classappend="${mainCode == 'member'} ? 'on'">
-    <i class="xi-user-o"></i>
-    회원관리
-  </a>
-  <a th:href="@{/admin/trend}" th:classappend="${mainCode == 'trend'} ? 'on'">
-    <i class="xi-trending-up"></i>
-    트렌드
-  </a>
-</aside>
+    <aside th:fragment="menus">
+        <a th:href="@{/admin/config}" th:classappend="${mainCode == 'config'} ? 'on'">
+            <i class="xi-cog"></i>
+            사이트 설정
+        </a>
+        <a th:href="@{/admin/member}" th:classappend="${mainCode == 'member'} ? 'on'">
+            <i class="xi-user-o"></i>
+            회원관리
+        </a>
+        <a th:href="@{/admin/trend}" th:classappend="${mainCode == 'trend'} ? 'on'">
+            <i class="xi-trending-up"></i>
+            트렌드
+        </a>
+        <a th:href="@{/admin/product}" th:classappend="${mainCode == 'product'} ? 'on'">
+            <i class="xi-list"></i>
+            상품관리
+        </a>
+    </aside>
 </html>

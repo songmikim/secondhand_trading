@@ -13,7 +13,7 @@ public class NewsTrendServiceTest {
 
     @Test
     void test(){
-        NewsTrend data =  service.process();
+       NewsTrend data =  service.process();
 //        System.out.println(data);
         service.scheduledJob();
     }
