@@ -126,8 +126,6 @@ public class MemberInfoService implements UserDetailsService {
 
         int total = jdbcTemplate.queryForObject(sb2.toString(), int.class); // 검색 조건에 다른 전체 레코드 갯수
 
-        total = 100000;
-
         Pagination pagination = new Pagination(page, total, 10, 20, request);
 
 
