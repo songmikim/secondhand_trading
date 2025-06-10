@@ -12,6 +12,7 @@ import java.util.Collection;
 @Data
 @Builder
 public class MemberInfo implements UserDetails {
+
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
@@ -52,7 +53,7 @@ public class MemberInfo implements UserDetails {
     public boolean isCredentialsNonExpired() {
         LocalDateTime date = member.getCredentialChangedAt();
         // 비밀번호 변경시간이 90일이 경과한 경우
-        // 현재 날짜 시간에서 90일을 뺀 날짜보다 작은 겨우는 90일을 경과한 것
+        // 현재 날짜 시간에서 90일을 뺀 날짜보다 작은 경우는 90일을 경과한 것
         LocalDateTime dateBefore90 = LocalDateTime.now().minusDays(90L);
         return date != null && date.isAfter(dateBefore90);
     }
@@ -62,6 +63,4 @@ public class MemberInfo implements UserDetails {
     public boolean isAccountNonLocked() {
         return !member.isLocked();
     }
-
-
 }
