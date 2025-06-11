@@ -3,7 +3,11 @@ package org.koreait.admin.product.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.koreait.admin.global.controllers.CommonController;
+import org.koreait.admin.product.services.ProductListService;
+import org.koreait.admin.product.services.ProductStatusService;
+import org.koreait.global.search.ListData;
 import org.koreait.product.constants.ProductStatus;
+import org.koreait.product.entities.Product;
 import org.koreait.product.services.ProductUpdateService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +26,8 @@ import java.util.UUID;
 public class ProductController extends CommonController {
 
     private final ProductUpdateService updateService;
+    private final ProductListService listService;
+    private final ProductStatusService statusService;
 
     @Override
     @ModelAttribute("mainCode")
@@ -41,9 +47,11 @@ public class ProductController extends CommonController {
 
     // 상품 목록
     @GetMapping({"", "/list"})
-    public String list(Model model) {
-        commonProcess("list", model);
-
+    public String list(ProductSearch search, Model model) {
+        ListData<Product> data = listService.getList(search);
+        model.addAttribute("productSearch", search); //
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
         return "admin/product/list";
     }
 
@@ -82,6 +90,20 @@ public class ProductController extends CommonController {
         updateService.process(form);
 
         // 상품 등록 완료 후 상품 목록으로 이동
+        return "redirect:/admin/product";
+    }
+
+    @PostMapping("/status")
+    public String updateProductStatus(@RequestParam("chk") List<Long> productSeqs,
+                                      @RequestParam("status") String newStatus) {
+        // 상품 상태 일괄 변경
+        statusService.updateStatus(productSeqs, newStatus);
+        return "redirect:/admin/product"; // 목록으로 이동
+    }
+
+    @PostMapping("/delete")
+    public String deleteProducts(@RequestParam("chk") List<Long> ids) {
+        statusService.deleteAllByIds(ids);
         return "redirect:/admin/product";
     }
 

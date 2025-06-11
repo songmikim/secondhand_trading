@@ -9,3 +9,4 @@ window.alert = function(message, callback) {
         }
     })
 };
+

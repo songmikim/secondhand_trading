@@ -119,12 +119,14 @@ public class MemberInfoService implements UserDetailsService {
         sb.append(" LIMIT ?, ?");
 
 
+        int total = jdbcTemplate.queryForObject(sb2.toString(), int.class, params.toArray()); // 검색 조건에 다른 전체 레코드 갯수
+
         params.add(offset);
         params.add(limit);
 
         List<Member> items = jdbcTemplate.query(sb.toString(), this::mapper, params.toArray());
 
-        int total = jdbcTemplate.queryForObject(sb2.toString(), int.class); // 검색 조건에 다른 전체 레코드 갯수
+
 
         Pagination pagination = new Pagination(page, total, 10, 20, request);
 
