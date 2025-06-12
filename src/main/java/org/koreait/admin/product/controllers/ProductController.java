@@ -47,7 +47,7 @@ public class ProductController extends CommonController {
 
     // 상품 목록
     @GetMapping({"", "/list"})
-    public String list(ProductSearch search, Model model) {
+    public String list(@ModelAttribute ProductSearch search, Model model) {
         ListData<Product> data = listService.getList(search);
         model.addAttribute("productSearch", search); //
         model.addAttribute("items", data.getItems());

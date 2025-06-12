@@ -25,7 +25,7 @@ public class ProductListService {
 
     public ListData<Product> getList(ProductSearch search) {
         int page = Math.max(search.getPage(), 1);
-        int limit = 20;
+        int limit = 10;
         int offset = (page - 1) * limit;
 
         List<Object> params = new ArrayList<>();

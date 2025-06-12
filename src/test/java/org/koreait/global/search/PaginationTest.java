@@ -7,10 +7,10 @@ import java.util.Arrays;
 public class PaginationTest {
 
     @Test
-    void test(){
+    void test() {
         Pagination pagination = new Pagination(13, 9865, 10, 10);
         System.out.println(pagination);
 
-        pagination.getPage().forEach(i -> System.out.println(Arrays.toString(i)));
+        pagination.getPages().forEach(i -> System.out.println(Arrays.toString(i)));
     }
 }
