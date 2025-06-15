@@ -1,4 +1,4 @@
-CREATE TABLE MEMBER(
+CREATE TABLE MEMBER (
     seq BIGINT AUTO_INCREMENT,
     email VARCHAR(65) NOT NULL UNIQUE,
     password VARCHAR(65) NOT NULL,
@@ -6,6 +6,9 @@ CREATE TABLE MEMBER(
     mobile VARCHAR(15) NOT NULL,
     authority ENUM('MEMBER', 'ADMIN') DEFAULT 'MEMBER',
     termsAgree TINYINT(1) DEFAULT 0,
+    locked TINYINT(1) DEFAULT 0,
+    expired DATETIME,
+    credentialChangedAt DATETIME,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     modifiedAt DATETIME,
     deletedAt DATETIME,

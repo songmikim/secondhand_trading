@@ -29,12 +29,21 @@ spring:
       fileSizeThreshold: 30MB
 
 # 로깅 설정
-    logging:
-      level:
-        org.springframework.jdbc: TRACE
+logging:
+  level:
+    org.springframework.jdbc: TRACE
 
 # 파일 업로드 경로 설정
 file:
   upload:
-  url: ${file.url}
-  path: ${file.path}
+    url: ${file.url}
+    path: ${file.path}
+
+
+# 파이썬 설정
+python:
+  path:
+    base: ${python.base}
+    base2: ${python.base2}
+    trend: ${python.trend}
+    restaurant: ${python.restaurant}
