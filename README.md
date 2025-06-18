@@ -56,3 +56,8 @@ TrendInfoService
 ### @CreatedBy : 로그인한 사용자의 정보 자동 기록
 - AuditorAware 인터페이스 구현
   - 자동으로 @CreatedBy에 설정될 로그인한 회원정보가 무엇인지를 설정
+
+### 파일 다운로드
+- 브라우저의 출력 방향을 웹브라우저가 아니라 특정 파일명으로 변경하면 다운로드가 된다.
+- 응답 헤더 : Content-Disposition: attachment; filename=파일명
+  - 바디에 출력되는 데이터가 파일명으로 다운로드 된다.
