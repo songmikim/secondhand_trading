@@ -98,8 +98,13 @@ public class FileInfoService {
     public String folder(FileInfo item) {
         long seq = item.getSeq();
 
+        return folder(seq);
+    }
+
+    public String folder(long seq) {
         return String.valueOf(seq % 10L); // 0 ~ 9
     }
+
 
     // 브라우저에서 접근할 수 있는 URL
     public String getFileUrl(FileInfo item) {

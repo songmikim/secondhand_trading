@@ -61,3 +61,8 @@ TrendInfoService
 - 브라우저의 출력 방향을 웹브라우저가 아니라 특정 파일명으로 변경하면 다운로드가 된다.
 - 응답 헤더 : Content-Disposition: attachment; filename=파일명
   - 바디에 출력되는 데이터가 파일명으로 다운로드 된다.
+
+### 썸네일 생성
+- 경로
+- uploads/thumbs/1/너비_높이_1.png
+- 같은 경로에 같은 너비, 높이의 썸네일이 있으면 따로 생성 X
