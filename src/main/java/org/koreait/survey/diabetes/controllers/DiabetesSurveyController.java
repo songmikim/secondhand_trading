@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.koreait.global.constants.Gender;
 import org.koreait.global.libs.Utils;
 import org.koreait.survey.diabetes.constants.SmokingHistory;
+import org.koreait.survey.diabetes.entities.DiabetesSurvey;
+import org.koreait.survey.diabetes.services.DiabetesSurveyInfoService;
 import org.koreait.survey.diabetes.services.DiabetesSurveyService;
 import org.koreait.survey.diabetes.validators.DiabetesSurveyValidator;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ public class DiabetesSurveyController {
     private final Utils utils;
     private final DiabetesSurveyValidator validator;
     private final DiabetesSurveyService surveyService;
+    private final DiabetesSurveyInfoService infoService;
 
     @ModelAttribute("addCss")
     public List<String> addCss() {
@@ -50,7 +53,7 @@ public class DiabetesSurveyController {
         return SmokingHistory.values();
     }
 
-    @GetMapping("/step1")
+    @GetMapping({"","/step1"})
     public String step1(@ModelAttribute RequestDiabetesSurvey form, Model model) {
         commonProcess("step", model);
 
@@ -89,12 +92,15 @@ public class DiabetesSurveyController {
         }
 
         // 설문 결과 및 저장 처리
-        surveyService.process(form);
+        DiabetesSurvey item = surveyService.process(form);
 
         // 처리 완료 후 세션값으로 더이상 변경되지 않도록 완료 처리
         status.setComplete();
 
-        return "redirect:/survey/diabetes/result/설문번호";
+        // 양식데이터 초기화
+        model.addAttribute("requestDiabetesSurvey", requestDiabetesSurvey());
+
+        return "redirect:/survey/diabetes/result/" + item.getSeq();
     }
 
 
@@ -106,6 +112,10 @@ public class DiabetesSurveyController {
     @GetMapping("/result/{seq}")
     public String result(@PathVariable("seq") Long seq, Model model) {
         commonProcess("result", model);
+
+        DiabetesSurvey item = infoService.get(seq);
+        model.addAttribute("item", item);
+
 
         return utils.tpl("survey/diabetes/result");
     }

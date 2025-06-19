@@ -85,15 +85,19 @@ public class DiabetesSurveyPredictService {
         item.add(form.getSmokingHistory().getNum());
 
         // BMI 지수 계산
-        double height = form.getHeight() / 100.0;
-        double weight = form.getWeight();
-
-        double bmi = Math.round((weight / Math.pow(height, 2.0)) * 100.0) / 100.0;
+        double bmi = getBmi(form.getHeight(), form.getWeight());
         item.add(bmi);
 
         item.add(form.getHbA1c()); // 당화혈색소 수치
         item.add(form.getBloodGlucoseLevel()); // 혈당 수치
 
         return isDiabetes(item);
+    }
+
+    // BMI 지수 계산
+    public double getBmi(double height, double weight){
+        height = height / 100.0;
+
+        return Math.round((weight / Math.pow(height, 2.0)) * 100.0) / 100.0;
     }
 }

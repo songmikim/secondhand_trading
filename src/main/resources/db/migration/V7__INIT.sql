@@ -1,0 +1,21 @@
+CREATE TABLE SURVEY_DIABETES (
+    seq BIGINT AUTO_INCREMENT,
+    memberSeq BIGINT,
+    gender ENUM('FEMALE', 'MALE', 'OTHER') DEFAULT 'FEMALE',
+    age INT,
+    hypertension TINYINT(1),
+    heartDisease TINYINT(1),
+    smokingHistory ENUM('NO_INFO', 'CURRENT', 'EVER', 'FORMER', 'NEVER', 'NOT_CURRENT') DEFAULT 'NO_INFO',
+    height FLOAT,
+    weight FLOAT,
+    bmi FLOAT,
+    hbA1c FLOAT,
+    bloodGlucoseLevel FLOAT,
+    diabetes TINYINT(1),
+    trainDone TINYINT(1),
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    modifiedAt DATETIME,
+    deletedAt DATETIME,
+    FOREIGN KEY(memberSeq) REFERENCES MEMBER(seq),
+    PRIMARY KEY(seq)
+);
