@@ -2,20 +2,28 @@ package org.koreait.global.libs;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.koreait.file.entities.FileInfo;
+import org.koreait.file.services.FileInfoService;
+import org.koreait.global.configs.FileProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
 
 import java.util.Locale;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
+@EnableConfigurationProperties(FileProperties.class)
 public class Utils {
 
     private final HttpServletRequest request;
     private final MessageSource messageSource;
     private final LocaleResolver localeResolver;
+    private final FileProperties fileProperties;
+    private final FileInfoService infoService;
 
     /**
      * CSS, JS 버전
@@ -73,5 +81,52 @@ public class Utils {
 
     public String getParam(String name) {
         return request.getParameter(name);
+    }
+
+    /**
+     * Thumbnail 이미지를 템플릿에서 출력하는 함수
+     *
+     * @param seq : 파일등록번호
+     * @param width : 너비
+     * @param height : 높이
+     * @param crop : 크롭 여부
+     * @return
+     */
+    public String printThumb(Long seq, int width, int height, String addClass, boolean crop) {
+        String url = null;
+        try {
+            FileInfo item = infoService.get(seq);
+            long folder = seq % 10L;
+            url = String.format("%s%s/thumbs/%s/%s_%s_%s_%s%s", request.getContextPath(), fileProperties.getUrl(), folder, width, height, crop, seq, Objects.requireNonNullElse(item.getExtension(), ""));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        url = StringUtils.hasText(url) ? url : request.getContextPath() + "/common/images/no_image.jpg";
+
+        return String.format("<img src='%s' class='%s%s'>", url, "image-" + seq,StringUtils.hasText(addClass)? " " + addClass : "");
+    }
+
+    public String printThumb(Long seq, int width, int height, String addClass) {
+        return printThumb(seq, width, height, addClass, true);
+    }
+
+    public String printThumb(Long seq, int width, int height) {
+        return printThumb(seq, width, height, null);
+    }
+
+    public String printThumb(Long seq) {
+        return printThumb(seq, 100, 100);
+    }
+
+
+    /**
+     * 이미지가 없는 경우 출력하는 이미지
+     * @return
+     */
+    public String printNoImage() {
+        String url = request.getContextPath() + "/common/images/no_image.jpg";
+
+        return String.format("<img src='%s'>", url);
     }
 }

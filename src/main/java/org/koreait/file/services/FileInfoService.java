@@ -93,6 +93,19 @@ public class FileInfoService {
     private void addInfo(FileInfo item) {
         item.setFileUrl(getFileUrl(item));
         item.setFilePath(getFilePath(item));
+
+        /* 파일이 이미지인지 체크 */
+        String contentType = item.getContentType();
+        item.setImage(StringUtils.hasText(contentType) && contentType.startsWith("image"));
+
+        /* 이미지인 경우 썸네일 기본 URL, 기본 Path  추가 */
+        if (item.isImage()) {
+            String folder = folder(item);
+            String thumbPath = String.format("%s/thumbs/%s/", properties.getPath(), folder);
+            String thumbUrl = String.format("%s/%s/thumbs/%s/", request.getContextPath(), properties.getUrl(), folder);
+            item.setThumbBasePath(thumbPath);
+            item.setThumbBaseUrl(thumbUrl);
+        }
     }
 
     public String folder(FileInfo item) {
@@ -104,7 +117,6 @@ public class FileInfoService {
     public String folder(long seq) {
         return String.valueOf(seq % 10L); // 0 ~ 9
     }
-
 
     // 브라우저에서 접근할 수 있는 URL
     public String getFileUrl(FileInfo item) {

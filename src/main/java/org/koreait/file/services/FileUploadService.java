@@ -27,33 +27,34 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @EnableConfigurationProperties(FileProperties.class)
 public class FileUploadService {
+
     private final Utils utils;
     private final FileProperties properties;
     private final FileInfoRepository repository;
     private final MemberUtil memberUtil;
 
-    public List<FileInfo> process(RequestUpload form){
-        String gid = form.getGid(); // 그룹ID
+    public List<FileInfo> process(RequestUpload form) {
+        String gid = form.getGid(); // 그룹 ID
         gid = StringUtils.hasText(gid) ? gid : UUID.randomUUID().toString();
-        String  location = form.getLocation();
+        String location = form.getLocation();
 
         MultipartFile[] files = form.getFiles();
-        if(files == null) {
+        if (files == null) { // 파일을 업로드 하지 않은 경우
             throw new AlertBackException(utils.getMessage("NotUpload.file"), HttpStatus.BAD_REQUEST);
         }
 
         String basePath = properties.getPath(); // 파일 업로드 기본 경로
 
         List<FileInfo> uploadedFiles = new ArrayList<>();
-        for(MultipartFile file : files) {
-
-            String fileName = file.getOriginalFilename();   // 업로드할때 파일명
-            String extension = fileName.substring(fileName.lastIndexOf("."));   // 확장자
+        for (MultipartFile file : files) {
+            // 1. 업로드한 파일 정보를 DB에 기록 S
+            String fileName = file.getOriginalFilename(); // 업로드할때 파일명
+            String extension = fileName.substring(fileName.lastIndexOf(".")); // 확장자
             String contentType = file.getContentType();
 
             FileInfo item = new FileInfo();
             item.setGid(gid);
-            if(StringUtils.hasText(location)){
+            if (StringUtils.hasText(location)) {
                 item.setLocation(location);
             }
 
@@ -64,26 +65,28 @@ public class FileUploadService {
             repository.save(item);
             // 1. 업로드한 파일 정보를 DB에 기록 E
 
-            // 2. seq, extension으로 서버에 올릴 경로를 만들어주고 업로드 처리
+            // 2. seq, extension으로 서버에 올릴 경로 만들어주고 업로드 처리
             long seq = item.getSeq();
-            long folder = seq % 10L; // 0~9
+            long folder = seq % 10L; // 0 ~ 9
             String _fileName = seq + Objects.requireNonNullElse(extension, "");
             String uploadDir = String.format("%s/%s", basePath, folder);
             File _uploadDir = new File(uploadDir);
-            if(!_uploadDir.exists() || !_uploadDir.isDirectory()){
+            if (!_uploadDir.exists() || !_uploadDir.isDirectory()) {
                 _uploadDir.mkdir();
             }
 
             File uploadPath = new File(_uploadDir, _fileName);
-            try{
+            try {
                 file.transferTo(uploadPath);
                 uploadedFiles.add(item);
-            } catch (IOException e){
+            } catch (IOException e) {
                 // 업로드 실패시 저장된 DB 데이터 삭제
                 repository.deleteById(seq);
+
                 e.printStackTrace();
             }
         }
+
         return uploadedFiles;
     }
 }

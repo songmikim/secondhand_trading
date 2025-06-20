@@ -32,4 +32,13 @@ public class FileInfo extends BaseEntity {
 
     @Transient
     private String fileUrl; // 브라우저에서 접근 가능한 URL
+
+    @Transient
+    private String thumbBaseUrl;
+
+    @Transient
+    private String thumbBasePath;
+
+    @Transient
+    private boolean image;
 }
