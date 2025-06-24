@@ -31,6 +31,7 @@ public class FileUploadService {
     private final Utils utils;
     private final FileProperties properties;
     private final FileInfoRepository repository;
+    private final FileInfoService infoService;
     private final MemberUtil memberUtil;
 
     public List<FileInfo> process(RequestUpload form) {
@@ -78,6 +79,7 @@ public class FileUploadService {
             File uploadPath = new File(_uploadDir, _fileName);
             try {
                 file.transferTo(uploadPath);
+                infoService.addInfo(item);
                 uploadedFiles.add(item);
             } catch (IOException e) {
                 // 업로드 실패시 저장된 DB 데이터 삭제

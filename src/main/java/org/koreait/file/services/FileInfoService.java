@@ -90,7 +90,7 @@ public class FileInfoService {
      * 3) 이미지인 경우 썸네일 이미지 URL
      * @param item
      */
-    private void addInfo(FileInfo item) {
+    public void addInfo(FileInfo item) {
         item.setFileUrl(getFileUrl(item));
         item.setFilePath(getFilePath(item));
 
@@ -102,7 +102,7 @@ public class FileInfoService {
         if (item.isImage()) {
             String folder = folder(item);
             String thumbPath = String.format("%s/thumbs/%s/", properties.getPath(), folder);
-            String thumbUrl = String.format("%s/%s/thumbs/%s/", request.getContextPath(), properties.getUrl(), folder);
+            String thumbUrl = String.format("%s%s/thumbs/%s/", request.getContextPath(), properties.getUrl(), folder);
             item.setThumbBasePath(thumbPath);
             item.setThumbBaseUrl(thumbUrl);
         }
