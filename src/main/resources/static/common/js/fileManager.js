@@ -50,7 +50,9 @@ commonLib.fileManager = {
             const { ajaxLoad } = commonLib;
             ajaxLoad('/file/upload',(items) => {
                // 성공시 후속 처리
-               console.log('items', items);
+               if (typeof fileUploadCallback === 'function') {
+                    fileUploadCallback(items);
+               }
             }, (err) => {
                 // 실패시 후속 처리
                 alert('파일 업로드에 실패하였습니다.');
@@ -61,6 +63,13 @@ commonLib.fileManager = {
             console.error(err);
             alert(err.message);
         }
+    },
+    /**
+    * 파일 삭제
+    *
+    */
+    delete(seq) {
+
     }
 };
 
