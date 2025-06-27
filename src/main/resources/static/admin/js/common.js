@@ -25,3 +25,17 @@ window.addEventListener("DOMContentLoaded", function() {
     }
     // 공통 양식 처리 E
 });
+
+window.addEventListener("DOMContentLoaded", function(){
+    // 이미지 상세보기 처리 S
+    const { fileManager } = commonLib;
+    const showImages = document.getElementsByClassName("show-image");
+    for(const el of showImages){
+        el.addEventListener("click", function(){
+            const { seq } = this.dataset;
+
+        })
+    }
+    // 이미지 상세보기 처리 E
+
+});

@@ -50,10 +50,29 @@ function fileUploadCallback(items) {
         const removeEl = el.querySelector(".remove");
         if (removeEl) {
             removeEl.addEventListener("click", function() {
-                alert('정말 삭제하겠습니까?', () => {
+                if(confirm('정말 삭제하겠습니까?')) {
                     fileManager.delete(seq);
-                });
+                }
             });
         }
+        // 전체 이미지 보기 클릭 처리
+        const showImageEl = el.querySelector(".show-image");
+        if(showImageEl){
+            showImageEl.addEventListener("click", function(){
+                const { seq } = showImageEl.dataset;
+                fileManager.showImage(seq);
+            })
+        }
+    }
+}
+
+/*
+* 파일 삭제 성공시에 후속처리
+*
+*/
+function fileDeleteCallback({seq}){
+    const el = document.getElementById(`file-${seq}`);
+    if(el){
+        el.parentElement.removeChild(el);
     }
 }

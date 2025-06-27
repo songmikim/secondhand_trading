@@ -3,6 +3,10 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layouts/main}">
 
+<th:block layout:fragment="addCommonScript">
+    <th:block th:replace="~{common/_editor_script::script}"></th:block>
+</th:block>
+
 <section layout:fragment="content">
     <h1 th:text="${pageTitle}"></h1>
     <form name="frmSave" method="POST" th:action="@{/admin/product/save}" th:object="${requestProduct}" autocomplete="off">

@@ -69,7 +69,26 @@ commonLib.fileManager = {
     *
     */
     delete(seq) {
+        const { ajaxLoad } = commonLib;
 
+        ajaxLoad(`/file/delete/${seq}`,
+        (item) => {
+            if (typeof fileDeleteCallback === 'function') {
+                fileDeleteCallback(item);
+            }
+        },
+        (err) => {
+            alert('파일삭제 실패하였습니다.');
+            console.error(err);
+        }, 'DELETE')
+    },
+    /**
+    * 원본 이미지 출력
+    *
+    */
+    showImage(seq) {
+        const url = commonLib.getUrl(`/file/image/${seq}`);
+        open(url);
     }
 };
 

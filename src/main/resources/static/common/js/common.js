@@ -7,10 +7,7 @@ var commonLib = {
     * @param isText : false - json : text
     */
     ajaxLoad(url, successCallback, failureCallback, method = 'GET', body, header, isText = false) {
-        // context path를 고려한 주소 변경
-        let baseUrl = document.querySelector("meta[name='base_url']").content;
-        baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/'));
-        url = baseUrl + url;
+        url = commonLib.getUrl(url);
 
         const options = {
             method,
@@ -48,6 +45,16 @@ var commonLib = {
                     failureCallback(err);
                 }
             });
+    },
+    /**
+    * ContextPath 기준 경로
+    *
+    */
+    getUrl(url) {
+        let baseUrl = document.querySelector("meta[name='base_url']").content;
+        baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/'));
+
+        return url ? baseUrl + url : baseUrl;
     }
 }
 
@@ -62,3 +69,16 @@ window.alert = function(message, callback) {
         }
     })
 };
+
+window.addEventListener("DOMContentLoaded", function() {
+    // 이미지 상세보기 처리 S
+    const { fileManager } = commonLib;
+    const showImages = document.getElementsByClassName("show-image");
+    for (const el of showImages) {
+        el.addEventListener("click", function() {
+            const { seq } = this.dataset;
+            fileManager.showImage(seq);
+        });
+    }
+    // 이미지 상세보기 처리 E
+});
