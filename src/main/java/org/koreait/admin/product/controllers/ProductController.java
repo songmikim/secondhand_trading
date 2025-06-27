@@ -1,5 +1,6 @@
 package org.koreait.admin.product.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.koreait.admin.global.controllers.CommonController;
@@ -48,6 +49,8 @@ public class ProductController extends CommonController {
     // 상품 목록
     @GetMapping({"", "/list"})
     public String list(@ModelAttribute ProductSearch search, Model model) {
+        commonProcess("list", model);
+
         ListData<Product> data = listService.getList(search);
         model.addAttribute("productSearch", search); //
         model.addAttribute("items", data.getItems());
@@ -95,15 +98,19 @@ public class ProductController extends CommonController {
 
     @PostMapping("/status")
     public String updateProductStatus(@RequestParam("chk") List<Long> productSeqs,
-                                      @RequestParam("status") String newStatus) {
-        // 상품 상태 일괄 변경
-        statusService.updateStatus(productSeqs, newStatus);
-        return "redirect:/admin/product"; // 목록으로 이동
-    }
+                                      @RequestParam(name="status", required = false) String newStatus,
+                                      HttpServletRequest request) {
+        String method = request.getMethod();
 
-    @PostMapping("/delete")
-    public String deleteProducts(@RequestParam("chk") List<Long> ids) {
-        statusService.deleteAllByIds(ids);
+        if ("DELETE".equalsIgnoreCase(method)) { // 삭제 처리
+            statusService.deleteAllByIds(productSeqs);
+        } else {
+            if (StringUtils.hasText(newStatus)) {
+                statusService.updateStatus(productSeqs, newStatus); // 일괄 상태 변경
+            } else {
+                statusService.updateStatusEach(productSeqs); // 개별 상태 변경
+            }
+        }
         return "redirect:/admin/product";
     }
 
@@ -126,6 +133,7 @@ public class ProductController extends CommonController {
 
         } else if (code.equals("list")) {
             pageTitle = "상품목록";
+            addScript.add("product/list");
         }
 
         model.addAttribute("pageTitle", pageTitle);
