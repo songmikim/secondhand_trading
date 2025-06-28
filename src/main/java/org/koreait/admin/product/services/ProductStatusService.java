@@ -19,22 +19,20 @@ public class ProductStatusService {
      * 선택된 상품 상태 일괄 변경
      */
     @Transactional
-    public void updateStatus(List<Long> chks, String changeStatus) {
-        if (chks == null || chks.isEmpty() || changeStatus == null || changeStatus.isBlank()) return;
+    public void updateStatusSingle(Long productSeq, String changeStatus) {
+        if (productSeq == null || changeStatus == null || changeStatus.isBlank()) return;
 
         ProductStatus status;
         try {
             status = ProductStatus.valueOf(changeStatus);
         } catch (IllegalArgumentException e) {
-            return; // 유효하지 않은 상태 코드일 경우 무시
+            return; // 유효하지 않은 상태 코드 무시
         }
 
-        List<Product> products = (List<Product>) productRepository.findAllById(chks);
-        for (Product product : products) {
+        productRepository.findById(productSeq).ifPresent(product -> {
             product.setStatus(status);
-        }
-
-        productRepository.saveAll(products);
+            productRepository.save(product);
+        });
     }
 
     /**

@@ -1,9 +1,10 @@
 package org.koreait.admin.product.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.koreait.admin.global.controllers.CommonController;
-import org.koreait.admin.product.services.ProductListService;
+import org.koreait.admin.product.services.ProductInfoService;
 import org.koreait.admin.product.services.ProductStatusService;
 import org.koreait.global.search.ListData;
 import org.koreait.product.constants.ProductStatus;
@@ -26,7 +27,7 @@ import java.util.UUID;
 public class ProductController extends CommonController {
 
     private final ProductUpdateService updateService;
-    private final ProductListService listService;
+    private final ProductInfoService infoService;
     private final ProductStatusService statusService;
 
     @Override
@@ -48,11 +49,33 @@ public class ProductController extends CommonController {
     // 상품 목록
     @GetMapping({"", "/list"})
     public String list(@ModelAttribute ProductSearch search, Model model) {
-        ListData<Product> data = listService.getList(search);
+        commonProcess("list", model);
+
+        ListData<Product> data = infoService.getList(search);
+
         model.addAttribute("productSearch", search); //
         model.addAttribute("items", data.getItems());
+        model.addAttribute("statusList", ProductStatus.values());
         model.addAttribute("pagination", data.getPagination());
         return "admin/product/list";
+    }
+
+
+    @PatchMapping({"", "/list"})
+    public String updateProductStatus(@RequestParam("chk") List<Long> productSeqs,
+                                      HttpServletRequest request,
+                                      Model model) {
+        for (Long productSeq : productSeqs) {
+            String paramName = "newStatus_" + productSeq;
+            String newStatus = request.getParameter(paramName);
+            if (StringUtils.hasText(newStatus)) {
+                statusService.updateStatusSingle(productSeq, newStatus);
+            }
+        }
+
+        // 상태 변경 완료 후 부모창 새로고침
+        model.addAttribute("script", "parent.location.reload();");
+        return "common/_execute_script";
     }
 
     // 상품 등록
@@ -93,20 +116,6 @@ public class ProductController extends CommonController {
         return "redirect:/admin/product";
     }
 
-    @PostMapping("/status")
-    public String updateProductStatus(@RequestParam("chk") List<Long> productSeqs,
-                                      @RequestParam("status") String newStatus) {
-        // 상품 상태 일괄 변경
-        statusService.updateStatus(productSeqs, newStatus);
-        return "redirect:/admin/product"; // 목록으로 이동
-    }
-
-    @PostMapping("/delete")
-    public String deleteProducts(@RequestParam("chk") List<Long> ids) {
-        statusService.deleteAllByIds(ids);
-        return "redirect:/admin/product";
-    }
-
     /**
      * 공통 처리 부분
      * @param code
@@ -124,8 +133,9 @@ public class ProductController extends CommonController {
             addScript.add("product/form"); // 파일 업로드 후속 처리 또는 양식 처리 관련
             pageTitle = code.equals("update") ? "상품정보 수정" : "상품등록";
 
-        } else if (code.equals("list")) {
+        } else if (code.equals("list") || code.equals("") ) {
             pageTitle = "상품목록";
+            addScript.add("product/list");
         }
 
         model.addAttribute("pageTitle", pageTitle);

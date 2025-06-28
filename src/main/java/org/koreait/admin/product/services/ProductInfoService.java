@@ -15,11 +15,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Lazy
 @Service
 @RequiredArgsConstructor
-public class ProductListService {
+public class ProductInfoService {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -33,7 +34,7 @@ public class ProductListService {
 
         String sopt = StringUtils.hasText(search.getSopt()) ? search.getSopt() : "ALL";
         String skey = search.getSkey();
-        String status = search.getStatus();
+        List<String> statusList = search.getStatusList();
 
         // 검색 조건 조립
         if (StringUtils.hasText(skey)) {
@@ -50,9 +51,10 @@ public class ProductListService {
             }
         }
 
-        if (StringUtils.hasText(status)) {
-            addWhere.add("status = ?");
-            params.add(status);
+        if (statusList != null && !statusList.isEmpty()) {
+            String placeholders = statusList.stream().map(s -> "?").collect(Collectors.joining(", "));
+            addWhere.add("status IN (" + placeholders + ")");
+            params.addAll(statusList);
         }
 
         String where = addWhere.isEmpty() ? "" : " WHERE " + String.join(" AND ", addWhere);
@@ -90,4 +92,5 @@ public class ProductListService {
         product.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
         return product;
     }
+
 }

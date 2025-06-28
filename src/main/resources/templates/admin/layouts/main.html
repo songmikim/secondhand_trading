@@ -25,7 +25,7 @@
         <th:block layout:fragment="addCommonScript"></th:block>
 
         <script th:src="@{/admin/js/common.js?v={v}(v=${@utils.version()})}"></script>
-        <script th:each="jsFile : ${addScript}" th:src="@{/admin/js/{js}.js?v={v}(js=${jsFile}, v=${@utils.version()})}"></script>
+        <script th:each="jsFile : ${addScript}" th:src="@{/admin/js/{js}.js?v={v}(js=${jsFile}, v=${@utils.version()})}" defer></script>
         <th:block layout:fragment="addScript"></th:block>
         <title th:if="${pageTitle != null}" th:text="${pageTitle}"></title>
     </head>

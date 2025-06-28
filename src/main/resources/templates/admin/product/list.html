@@ -23,12 +23,15 @@
             <tr>
                 <th>상품 상태</th>
                 <td>
-                    <select name="status" th:field="*{status}">
-                        <option value="">전체</option>
-                        <option th:each="s : ${statusList}"
-                                th:value="${s}"
-                                th:text="#{|productStatus.${s}|}"></option>
-                    </select>
+                    <span class="checkbox">
+                        <input type="checkbox" th:id="status-All">
+                        <label th:for="status-All" th:text="전체"></label>
+                    </span>
+                    <span th:each="stat : ${statusList}" class="checkbox">
+                        <input type="checkbox" name="statusList" th:value="${stat.name()}" th:id="${'status-' + stat.name()}" class="statusList">
+                        <label th:for="${'status-' + stat.name()}" th:text="#{${'productStatus.' + stat.name()}}"></label>
+                    </span>
+
                 </td>
             </tr>
         </table>
@@ -36,17 +39,18 @@
     </form>
 
     <!-- 상품 목록 + 상태 변경/삭제 -->
-    <form name="frmList" method="post" th:action="@{/admin/product/status}">
+    <form name="frmList" method="post" th:action="@{/admin/product}" target="ifrmProcess">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
+        <input type="hidden" name="_method" value="PATCH">
         <table class="table-rows mt30">
             <thead>
             <tr>
                 <th width="40">
-                    <input type="checkbox" id="check-all" class="check-all" >
+                    <input type="checkbox" id="check-all" class="check-all" data-target-name="chk">
                     <label for="check-all" class="standalone"></label>
                 </th>
                 <th>상품명</th>
+                <th>이미지</th>
                 <th>카테고리</th>
                 <th>소비자가</th>
                 <th>판매가</th>
@@ -61,11 +65,12 @@
                     <label class="standalone" th:for="'chk-' + ${product.seq}"></label>
                 </td>
                 <td th:text="${product.name}"></td>
+                <td th:utext="${@utils.printThumb(product.seq)}"></td>
                 <td th:text="${product.category}"></td>
                 <td th:text="${product.consumerPrice}"></td>
                 <td th:text="${product.salePrice}"></td>
                 <td>
-                    <select name="newStatus_${product.seq}" class="w100">
+                    <select th:name="${'newStatus_' + product.seq}" class="w100">
                         <option th:each="s : ${statusList}"
                                 th:value="${s}"
                                 th:selected="${s} == ${product.status}"
@@ -82,15 +87,8 @@
 
         <!-- 상태 변경 & 삭제 버튼 -->
         <div class="table-action">
-            <select name="status" class="w180 mr5">
-                <option value="">상품 상태 변경</option>
-                <option th:each="s : ${statusList}" th:value="${s}" th:text="#{|productStatus.${s}|}"></option>
-            </select>
-
-            <button type="submit" class="sbtn black process-form edit">적용</button>
-            <button type="submit" class="sbtn process-form delete"
-                    formaction="/admin/product/delete"
-                    onclick="return confirm('선택한 상품을 삭제하시겠습니까?');">삭제</button>
+            <button type="button" class="sbtn process-form delete" data-form-name="frmList">삭제</button>
+            <button type="button" class="sbtn black process-form edit" data-form-name="frmList">정보 수정</button>
         </div>
 
     </form>
