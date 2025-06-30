@@ -51,12 +51,8 @@ public class ProductController extends CommonController {
     public String list(@ModelAttribute ProductSearch search, Model model) {
         commonProcess("list", model);
 
-<<<<<<< HEAD
         ListData<Product> data = infoService.getList(search);
 
-=======
-        ListData<Product> data = listService.getList(search);
->>>>>>> b90c41edc68c228c68599c4322900a8049b26f0c
         model.addAttribute("productSearch", search); //
         model.addAttribute("items", data.getItems());
         model.addAttribute("statusList", ProductStatus.values());
@@ -120,27 +116,6 @@ public class ProductController extends CommonController {
         return "redirect:/admin/product";
     }
 
-<<<<<<< HEAD
-=======
-    @PostMapping("/status")
-    public String updateProductStatus(@RequestParam("chk") List<Long> productSeqs,
-                                      @RequestParam(name="status", required = false) String newStatus,
-                                      HttpServletRequest request) {
-        String method = request.getMethod();
-
-        if ("DELETE".equalsIgnoreCase(method)) { // 삭제 처리
-            statusService.deleteAllByIds(productSeqs);
-        } else {
-            if (StringUtils.hasText(newStatus)) {
-                statusService.updateStatus(productSeqs, newStatus); // 일괄 상태 변경
-            } else {
-                statusService.updateStatusEach(productSeqs); // 개별 상태 변경
-            }
-        }
-        return "redirect:/admin/product";
-    }
-
->>>>>>> b90c41edc68c228c68599c4322900a8049b26f0c
     /**
      * 공통 처리 부분
      * @param code

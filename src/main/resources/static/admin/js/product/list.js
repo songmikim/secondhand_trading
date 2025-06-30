@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 document.addEventListener("DOMContentLoaded", function () {
-
     /**
      * 공통 체크박스 컨트롤러
      * @param {string} checkAllSelector - 전체 체크박스 ID 선택자
@@ -63,8 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
-=======
-window.addEventListener("DOMContentLoaded", function() {
+
     const frmList = document.forms['frmList'];
     if (!frmList) return;
 
@@ -98,5 +95,4 @@ window.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
->>>>>>> b90c41edc68c228c68599c4322900a8049b26f0c
 });
