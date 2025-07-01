@@ -68,10 +68,12 @@
             <th width="120">상품설명</th>
             <td>
                 <textarea id="description" name="description" th:field="*{description}"></textarea>
-                <div class="error" th:each="err : ${#fields.errors('description')}" th:text="${err}"></div>
+
+                <div class="uploaded_images" id="editor-images"></div>
             </td>
         </tr>
     </table>
     <script th:replace="~{common/_file_tpl::image_tpl}"></script>
+    <script th:replace="~{common/_file_tpl::editor_tpl}"></script>
 </th:block>
 </html>

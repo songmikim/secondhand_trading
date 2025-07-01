@@ -27,7 +27,9 @@ public class FileInfo extends BaseEntity {
     @Column("createdBy")
     private String createdBy; // 업로드한 로그인 사용자의 이메일
 
-    @Transient // 엔티티 내부에서 사용할 목적의 필드임을 알려주는 애노테이션
+    private boolean done; // 파일 그룹 작업이 완료 되었는지 여부
+
+    @Transient // 엔티티 내부에서 사용할 목적의 필드임을 알려는 애노테이션
     private String filePath; // 파일이 위치한 서버 경로
 
     @Transient
@@ -41,4 +43,6 @@ public class FileInfo extends BaseEntity {
 
     @Transient
     private boolean image;
+
+
 }
