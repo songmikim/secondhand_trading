@@ -1,6 +1,7 @@
 package org.koreait.file.services;
 
 import lombok.RequiredArgsConstructor;
+import org.koreait.file.constants.FileStatus;
 import org.koreait.file.entities.FileInfo;
 import org.koreait.file.repositories.FileInfoRepository;
 import org.koreait.global.exceptions.UnAuthorizedException;
@@ -60,7 +61,7 @@ public class FileDeleteService {
     * @return
     * */
     public List<FileInfo> process(String gid, String location){
-        List<FileInfo> items = infoService.getList(gid, location);
+        List<FileInfo> items = infoService.getList(gid, location, FileStatus.ALL);
         List<FileInfo> deletedItems = new ArrayList<>();
         for(FileInfo item : items) {
             try {

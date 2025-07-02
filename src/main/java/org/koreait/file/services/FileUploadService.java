@@ -1,6 +1,7 @@
 package org.koreait.file.services;
 
 import lombok.RequiredArgsConstructor;
+import org.koreait.file.constants.FileStatus;
 import org.koreait.file.controllers.RequestUpload;
 import org.koreait.file.entities.FileInfo;
 import org.koreait.file.repositories.FileInfoRepository;
@@ -29,7 +30,6 @@ public class FileUploadService {
     private final FileInfoRepository repository;
     private final FileInfoService infoService;
     private final FileDeleteService deleteService;
-
 
     public List<FileInfo> process(RequestUpload form) {
         String gid = form.getGid(); // 그룹 ID
@@ -102,5 +102,19 @@ public class FileUploadService {
         }
 
         return uploadedFiles;
+    }
+
+    /*
+    * 파일과 관련된 그룹작업 완료시 완료 표기 처리
+    * - done : true
+    * @param gid
+    *
+    * */
+    public  void processDone(String gid){
+        List<FileInfo> items = infoService.getList(gid, null, FileStatus.ALL);
+
+        items.forEach(item -> item.setDone(true));
+
+        repository.saveAll(items);
     }
 }

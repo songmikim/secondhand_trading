@@ -2,6 +2,7 @@ package org.koreait.file.services;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.koreait.file.constants.FileStatus;
 import org.koreait.file.entities.FileInfo;
 import org.koreait.file.exceptions.FileNotFoundException;
 import org.koreait.file.repositories.FileInfoRepository;
@@ -48,7 +49,9 @@ public class FileInfoService {
      * @param location : 그룹 내에서 구분 위치값
      * @return
      */
-    public List<FileInfo> getList(String gid, String location) {
+    public List<FileInfo> getList(String gid, String location, FileStatus status) {
+        status = Objects.requireNonNullElse(status, FileStatus.ALL);
+
         List<Object> params = new ArrayList<>();
         StringBuffer sb = new StringBuffer(2000);
         sb.append("SELECT * FROM FILE_INFO WHERE gid=?");
@@ -59,6 +62,11 @@ public class FileInfoService {
             params.add(location);
         }
 
+        if(status != FileStatus.ALL){
+            sb.append(" AND done=?");
+            params.add(status == FileStatus.DONE);
+        }
+
         sb.append(" ORDER BY createdAt DESC");
         List<FileInfo> items = jdbcTemplate.query(sb.toString(), this::mapper, params.toArray());
 
@@ -66,6 +74,14 @@ public class FileInfoService {
         items.forEach(this::addInfo);
 
         return items;
+    }
+
+    public List<FileInfo> getList(String gid, String location){
+        return getList(gid, location, FileStatus.DONE); // 그룹파일 완료 파일
+    }
+
+    public List<FileInfo> getList(String gid){
+        return getList(gid, null); // 그룹파일 완료 파일
     }
 
     private FileInfo mapper(ResultSet rs, int i) throws SQLException {
