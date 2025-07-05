@@ -37,8 +37,13 @@ public class RestaurantController {
     @ResponseBody
     @GetMapping("/search")
     public List<Restaurant> search(@ModelAttribute RestaurantSearch search) {
-        List<Restaurant> items = infoService.getNearest(search);
-        return items;
+//        List<Restaurant> items = infoService.getNearest(search);
+//        return items;
+        if (StringUtils.hasText(search.getSkey())) {
+            return infoService.search(search);
+        }
+
+        return infoService.getNearest(search);
     }
 
     @ResponseBody

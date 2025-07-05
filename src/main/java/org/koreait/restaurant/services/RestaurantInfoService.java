@@ -9,9 +9,14 @@ import org.koreait.restaurant.entities.Restaurant;
 import org.koreait.restaurant.repositories.RestaurantRepository;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +31,7 @@ public class RestaurantInfoService {
     private final WebApplicationContext ctx;
     private final RestaurantRepository repository;
     private final ObjectMapper om;
+    private final JdbcTemplate jdbcTemplate;
 
     /**
      * 주어진 좌표 근처의 cnt개 만큼의 식당 조회
@@ -84,5 +90,54 @@ public class RestaurantInfoService {
         int cnt = search.getCnt();
         cnt = cnt < 1 ? 10 : cnt;
         return getNestest(search.getLat(), search.getLon(), cnt);
+    }
+
+    /**
+     * 키워드 기반 검색 - 식당명 또는 주소
+     *
+     * @param search
+     * @return
+     */
+    public List<Restaurant> search(RestaurantSearch search) {
+        String skey = search.getSkey();
+        int cnt = search.getCnt();
+        cnt = cnt < 1 ? 10 : cnt;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT * FROM RESTAURANT");
+
+        List<Object> params = new ArrayList<>();
+
+        if (StringUtils.hasText(skey)) {
+            sb.append(" WHERE name LIKE ? OR address LIKE ? OR roadAddress LIKE ?");
+            for (int i = 0; i < 3; i++) params.add("%" + skey + "%");
+        }
+
+        if (search.getLat() != 0 && search.getLon() != 0) {
+            sb.append(params.isEmpty() ? " WHERE " : " AND ");
+            sb.append("1=1 ORDER BY POWER(lat - ?, 2) + POWER(lon - ?, 2)");
+            params.add(search.getLat());
+            params.add(search.getLon());
+        }
+
+        sb.append(" LIMIT ?");
+        params.add(cnt);
+
+        return jdbcTemplate.query(sb.toString(), this::mapper, params.toArray());
+    }
+
+    private Restaurant mapper(ResultSet rs, int i) throws SQLException {
+        Restaurant item = new Restaurant();
+        item.setSeq(rs.getLong("seq"));
+        item.setZipcode(rs.getString("zipcode"));
+        item.setAddress(rs.getString("address"));
+        item.setZonecode(rs.getString("zonecode"));
+        item.setRoadAddress(rs.getString("roadAddress"));
+        item.setCategory(rs.getString("category"));
+        item.setName(rs.getString("name"));
+        item.setLat(rs.getDouble("lat"));
+        item.setLon(rs.getDouble("lon"));
+
+        return item;
     }
 }

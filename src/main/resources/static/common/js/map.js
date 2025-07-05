@@ -45,7 +45,10 @@ commonLib.mapLib = {
             navigator.geolocation.getCurrentPosition((pos) => {
               const { latitude: lat, longitude: lon } = pos.coords;
               this.showMap(el, items, {lat, lon});
-            });
+            },
+            (err) => console.error('위치 정보 가져오기 실패:', err),
+            { enableHighAccuracy: true }
+            );
         }
     },
     showMap(el, items, center) {
