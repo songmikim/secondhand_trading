@@ -8,7 +8,7 @@ window.addEventListener("DOMContentLoaded", function() {
     let curLat = 0, curLon = 0;
 
     const search = () => {
-        const keyword = inputKeyword.value.trim();
+        const keyword = inputKeyword ? inputKeyword.value.trim() : '';
         const params = new URLSearchParams();
         if (keyword) params.append('skey', keyword);
         if (curLat) params.append('lat', curLat);
@@ -30,5 +30,7 @@ window.addEventListener("DOMContentLoaded", function() {
         search();
     });
 
-    btnSearch.addEventListener('click', search);
+    if (btnSearch) {
+        btnSearch.addEventListener('click', search);
+    }
 });
