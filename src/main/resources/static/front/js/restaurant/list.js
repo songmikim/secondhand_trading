@@ -18,6 +18,9 @@ window.addEventListener("DOMContentLoaded", function() {
         fetch(`/restaurant/search?${params.toString()}`)
             .then(res => res.json())
             .then(items => {
+                if (!items || items.length === 0) {
+                    alert('검색 결과가 없습니다.');
+                }
                 mapLib.load(el, items, null, '100%', '500px');
             });
     };

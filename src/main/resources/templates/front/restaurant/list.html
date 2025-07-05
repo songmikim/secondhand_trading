@@ -4,9 +4,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 
-<head>
-    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c353cbff16c035545fd3661e0c9019ed"></script>
-</head>
+<th:block layout:fragment="addCommonScript">
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c353cbff16c035545fd3661e0c9019ed"></script>
+</th:block>
 
 <main layout:fragment="content">
     <h1 th:text="${pageTitle}"></h1>
@@ -14,6 +14,7 @@
     <div class="search-box">
         <input type="text" id="searchKeyword" placeholder="검색어를 입력하세요.">
         <button type="button" id="btnSearch">검색</button>
+        <button onclick="setBounds()">지도 범위 재설정 하기</button>
     </div>
 
     <div id="map"></div>
