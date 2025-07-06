@@ -229,6 +229,7 @@ input[type="checkbox"] + span {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 15px;
 }
 .site-header .logo img {
   height: 40px;
