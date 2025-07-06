@@ -1,23 +1,24 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 
 <th:block layout:fragment="addCommonScript">
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c353cbff16c035545fd3661e0c9019ed"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=339affecdd7aeab3e196d735ea94e672"></script>
 </th:block>
 
 <main layout:fragment="content">
-    <h1 th:text="${pageTitle}"></h1>
+    <div class="wrapper">
+        <h1 th:text="${pageTitle}">오늘의 식당</h1>
 
-    <div class="search-box">
-        <input type="text" id="searchKeyword" placeholder="검색어를 입력하세요.">
-        <button type="button" id="btnSearch">검색</button>
-        <button onclick="setBounds()">지도 범위 재설정 하기</button>
+        <div class="search-box">
+            <input type="text" id="searchKeyword" placeholder="검색어를 입력하세요." />
+            <button type="button" id="btnSearch" class="btn solid">검색</button>
+            <button type="button" onclick="setBounds()" class="btn outline">내위치</button>
+        </div>
+
     </div>
 
-    <div id="map"></div>
+    <div id="map" class="map-container"></div>
     <script type="application/json" th:utext="${json}"></script>
 </main>
-</html>

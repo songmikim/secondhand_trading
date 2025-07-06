@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <header th:fragment="common">
-        <div class="top">
-            <div class="left">
-
+    <header th:fragment="common" class="site-header">
+        <div class="container">
+            <div class="logo">
+                <a th:href="@{/}">
+                    <img src="/common/images/logoW.png" alt="로고" />
+                </a>
             </div>
-            <div class="right">
+            <nav class="gnb">
+                <a th:href="@{/survey/diabetes}">당뇨 테스트</a>
+                <a th:href="@{/restaurant}">오늘의 식당</a>
+                <a th:href="@{/mypage}">마이페이지</a>
                 <th:block th:if="${isLogin}">
-                    <a th:href="@{/mypage}" th:text="${#messages.msg('LOGIN_MSG', loggedMember.name, loggedMember.email)}"></a>
-                    <a th:href="@{/mypage}" th:text="#{마이페이지}"></a>
-                    <a th:href="@{/logout}" th:text="#{로그아웃}"></a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN')" th:href="@{/admin}" th:text="#{사이트_관리}"></a>
+                    <a th:href="@{/logout}">로그아웃</a>
                 </th:block>
                 <th:block th:unless="${isLogin}">
-                    <a th:href="@{/member/join}" th:text="#{회원가입}"></a>
-                    <a th:href="@{/member/login}" th:text="#{로그인}"></a>
+                    <a th:href="@{/member/login}">로그인</a>
+                    <a th:href="@{/member/join}">회원가입</a>
                 </th:block>
-            </div>
+            </nav>
         </div>
     </header>
 </html>

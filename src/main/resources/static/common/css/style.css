@@ -5,3 +5,7 @@
 .flex {
     display: flex;
 }
+
+.logo {
+    margin-left : 15px
+}

@@ -19,12 +19,12 @@ body {
 }
 .wrapper {
   max-width: 800px;
-  margin: 50px auto;
+  margin: 50px auto 15px;
   padding: 20px;
 }
 .hero {
   position: relative;
-  height: 280px;
+  height: 220px;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   border-radius: var(--border-radius);
   overflow: hidden;
@@ -33,9 +33,7 @@ body {
   padding-left: 40px;
   color: #fff;
 }
-.hero.result-hero {
-  height: 220px;
-}
+
 .hero h1 {
   font-size: 2.8rem;
   font-weight: 700;
@@ -175,6 +173,8 @@ input[type="number"] {
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: background 0.2s;
+    text-decoration: none;
+    text-align: center;
 }
 .btn.outline {
   background: #fff;
@@ -191,4 +191,112 @@ input[type="number"] {
 }
 .btn.solid:hover {
   background: var(--secondary);
+}
+
+.terms{
+    padding: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+
+/* 체크박스 크기 및 스타일 */
+input[type="checkbox"] {
+  width: 1.5em;
+  height: 1.5em;
+  accent-color: var(--primary);
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+input[type="checkbox"] ~ span,
+input[type="checkbox"] + span {
+  vertical-align: top;
+  font-size: 1rem;
+}
+
+#smokingHistory-EVER + span {
+ letter-spacing: -1px;
+}
+
+/* --------------- Header --------------- */
+.site-header {
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 0;
+}
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.site-header .logo img {
+  height: 40px;
+}
+.site-header .gnb a {
+  color: #fff;
+  margin-left: 24px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.site-header .gnb a:hover {
+  opacity: 0.8;
+}
+
+/* --------------- Footer --------------- */
+.site-footer {
+  background: #2C3A4B;
+  color: #ccc;
+  padding: 24px 0;
+}
+.site-footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+.site-footer .footer-info p {
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+.site-footer .footer-links a {
+  color: #ccc;
+  margin-left: 16px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.site-footer .footer-links a:hover {
+  color: #fff;
+}
+
+/* 검색창과 버튼 한 줄 정렬 */
+.search-box {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.search-box input[type="text"] {
+flex: 4;
+padding: 10px 12px;
+border: 1px solid #d1d5db;
+border-radius: var(--border-radius);
+font-size: 1.1rem;
+min-width: 0;
+}
+
+.search-box .btn {
+flex: 1;
+padding: 10px 16px;
+white-space: nowrap;
+margin-top: 0;
+}
+.map-container {
+width: 100%;
+height: 500px;
+border-radius: var(--border-radius);
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
