@@ -55,7 +55,6 @@ window.addEventListener("DOMContentLoaded", function() {
     const btnSearch = document.getElementById('btnSearch');
     const placesListEl = document.getElementById('placesList');
 
-
     const mapOption = {
         center: new kakao.maps.LatLng(37.5665, 126.9780),
         level: 3
