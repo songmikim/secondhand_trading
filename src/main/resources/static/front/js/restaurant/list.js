@@ -36,4 +36,14 @@ window.addEventListener("DOMContentLoaded", function() {
     if (btnSearch) {
         btnSearch.addEventListener('click', search);
     }
+
+    window.setBounds = function() {
+        navigator.geolocation.getCurrentPosition((pos) => {
+            const { latitude: lat, longitude: lon } = pos.coords;
+            curLat = lat;
+            curLon = lon;
+            if (inputKeyword) inputKeyword.value = '';
+            search();
+        });
+    };
 });

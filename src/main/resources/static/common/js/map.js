@@ -59,8 +59,17 @@ commonLib.mapLib = {
 
         const map = new kakao.maps.Map(el, mapOptions);
 
-        // 마커 표기
-        if (!items || items.length === 0) return;
+        // 마커 표기 - 데이터가 없는 경우 현재 위치 마커 표시
+        if (!items || items.length === 0) {
+            const marker = new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(center.lat, center.lon),
+            });
+
+            marker.setMap(map);
+
+            return;
+        }
+
         items.forEach(({lat, lon, name, roadAddress}) => {
             const marker = new kakao.maps.Marker({
                 position: new kakao.maps.LatLng(lat, lon),
