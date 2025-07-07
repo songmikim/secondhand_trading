@@ -200,7 +200,7 @@ input[type="number"] {
     font-size: 1rem;
 }
 
-/* 체크박스 크기 및 스타일 */
+
 input[type="checkbox"] {
   width: 1.5em;
   height: 1.5em;
@@ -219,7 +219,7 @@ input[type="checkbox"] + span {
  letter-spacing: -1px;
 }
 
-/* --------------- Header --------------- */
+
 .site-header {
   background: var(--primary);
   color: #fff;
@@ -246,7 +246,6 @@ input[type="checkbox"] + span {
   opacity: 0.8;
 }
 
-/* --------------- Footer --------------- */
 .site-footer {
   background: #2C3A4B;
   color: #ccc;
@@ -301,3 +300,5 @@ height: 500px;
 border-radius: var(--border-radius);
 box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
+
+
