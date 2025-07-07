@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -20,8 +19,6 @@ public class DataTransfer {
 
     @Autowired
     private RestaurantRepository repository;
-
-    private static final int BATCH_SIZE = 1000;
 
     @Test
     void process() throws Exception {
@@ -32,7 +29,6 @@ public class DataTransfer {
              BufferedReader br = new BufferedReader(isr, 16000)) {
             int cnt = 0;
             String line = null;
-            List<Restaurant> batch = new ArrayList<>(BATCH_SIZE);
             while((line = br.readLine()) != null) {
                 cnt++;
                 if (cnt == 1) continue;
@@ -65,7 +61,7 @@ public class DataTransfer {
                     double lat = pos[0];
                     double lon = pos[1];
 
-//                    System.out.printf("operation:%s, zipcode:%s, address:%s, roadAddress1:%s, zonecode: %s, restaurant: %s, category: %s, loc1: %s, loc2: %s%n", operation, zipcode, address, roadAddress, zonecode, restaurant, category, loc1, loc2);
+                    System.out.printf("operation:%s, zipcode:%s, address:%s, roadAddress1:%s, zonecode: %s, restaurant: %s, category: %s, loc1: %s, loc2: %s%n", operation, zipcode, address, roadAddress, zonecode, restaurant, category, loc1, loc2);
 
                     Restaurant rest = new Restaurant();
                     rest.setZipcode(zipcode);
@@ -77,22 +73,14 @@ public class DataTransfer {
                     rest.setLat(lat);
                     rest.setLon(lon);
 
-                    // repository.save(rest);
-                    batch.add(rest);
-                    if (batch.size() >= BATCH_SIZE) {
-                        repository.saveAll(batch);
-                        batch.clear();
-                    }
+                    repository.save(rest);
 
                 } catch (Exception e) {
                     System.out.println("---- 오류 -----");
                     System.out.println(line);
                     e.printStackTrace();
                 }
-            }
 
-            if (!batch.isEmpty()) {
-                repository.saveAll(batch);
             }
         }
     }
