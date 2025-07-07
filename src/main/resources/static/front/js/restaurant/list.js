@@ -21,7 +21,7 @@ window.addEventListener("DOMContentLoaded", function() {
                 if (!items || items.length === 0) {
                     alert('검색 결과가 없습니다.');
                 }
-                mapLib.load(el, items, null, '100%', '500px');
+                mapLib.load(el, items, { lat: curLat, lon: curLon }, '100%', '500px');
             });
     };
 
@@ -31,7 +31,7 @@ window.addEventListener("DOMContentLoaded", function() {
         curLat = lat;
         curLon = lon;
         search();
-    });
+    }, null, { enableHighAccuracy: true });
 
     if (btnSearch) {
         btnSearch.addEventListener('click', search);
@@ -42,8 +42,8 @@ window.addEventListener("DOMContentLoaded", function() {
             const { latitude: lat, longitude: lon } = pos.coords;
             curLat = lat;
             curLon = lon;
-            if (inputKeyword) inputKeyword.value = '';
+            if (inputKeyword) inputKeyword.value = "";
             search();
-        });
+        }, null, { enableHighAccuracy: true });
     };
 });
