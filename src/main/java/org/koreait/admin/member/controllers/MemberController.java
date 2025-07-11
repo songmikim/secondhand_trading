@@ -2,6 +2,7 @@ package org.koreait.admin.member.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.koreait.admin.global.controllers.CommonController;
+import org.koreait.global.annotations.ApplyCommonController;
 import org.koreait.global.search.ListData;
 import org.koreait.member.constants.Authority;
 import org.koreait.member.controllers.MemberSearch;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@ApplyCommonController
 @RequiredArgsConstructor
 @RequestMapping("/admin/member")
 @Controller("adminMemberController")

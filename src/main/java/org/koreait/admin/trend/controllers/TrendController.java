@@ -2,6 +2,7 @@ package org.koreait.admin.trend.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.koreait.admin.global.controllers.CommonController;
+import org.koreait.global.annotations.ApplyCommonController;
 import org.koreait.trend.entities.Trend;
 import org.koreait.trend.services.TrendInfoService;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@ApplyCommonController
 @RequiredArgsConstructor
 @RequestMapping("/admin/trend")
 public class TrendController extends CommonController {

@@ -2,6 +2,9 @@ package org.koreait.global.exceptions;
 
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+import java.util.Map;
+
 public class UnAuthorizedException extends CommonException{
     public UnAuthorizedException(){
         this("UnAuthorized");
@@ -12,4 +15,7 @@ public class UnAuthorizedException extends CommonException{
         super(message, HttpStatus.UNAUTHORIZED);
     }
 
+    public UnAuthorizedException(Map<String , List<String >> errorMessages){
+        super(errorMessages, HttpStatus.UNAUTHORIZED);
+    }
 }

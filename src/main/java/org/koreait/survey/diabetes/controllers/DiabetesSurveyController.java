@@ -2,6 +2,7 @@ package org.koreait.survey.diabetes.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.koreait.global.annotations.ApplyCommonController;
 import org.koreait.global.constants.Gender;
 import org.koreait.global.libs.Utils;
 import org.koreait.survey.diabetes.constants.SmokingHistory;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import java.util.List;
 
 @Controller
+@ApplyCommonController
 @RequiredArgsConstructor
 @RequestMapping("/survey/diabetes")
 @SessionAttributes("requestDiabetesSurvey")

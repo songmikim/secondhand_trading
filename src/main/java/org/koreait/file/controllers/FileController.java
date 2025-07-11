@@ -1,5 +1,8 @@
 package org.koreait.file.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.koreait.file.entities.FileInfo;
@@ -18,7 +21,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/file")
+@RequestMapping({"/api/file", "/file"})
+@Tag(name="파일 API", description = "파일 업로드, 다운로드, 조회기능을 제공")
 public class FileController {
     private final FileUploadService uploadService;
     private final FileDeleteService deleteService;
@@ -26,7 +30,10 @@ public class FileController {
     private final FileDownloadService downloadService;
     private final ThumbnailService thumbnailService;
 
+    @Operation(summary = "파일 업로드 처리", method = "MULTIPART")
+    @ApiResponse(responseCode = "201", description = "파일 업로드 성공시 업로드한 파일 목록이 출력")
     @PostMapping("/upload")
+    @ResponseStatus(HttpStatus.CREATED)
     public List<FileInfo> upload(RequestUpload form, @RequestPart("file") MultipartFile[] files) {
         form.setFiles(files);
         List<FileInfo> items = uploadService.process(form);
@@ -91,23 +98,25 @@ public class FileController {
 
         } catch (IOException e) {}
     }
+
     @GetMapping("/image/{seq}")
-    public ResponseEntity<byte[]> showImage(@PathVariable("seq") Long seq){
+    public ResponseEntity<byte[]> showImage(@PathVariable("seq") Long seq) {
         FileInfo item = infoService.get(seq);
 
         String contentType = item.getContentType();
         byte[] bytes = null;
-
         File file = new File(item.getFilePath());
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))){
+        try(BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
             bytes = bis.readAllBytes();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(contentType));
-        return new ResponseEntity<>(bytes, headers, HttpStatus.OK );
+
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
+
 //    @GetMapping("/download/{seq}")
 //    public void download(@PathVariable("seq") Long seq) {
 //        response.setHeader("Content-Disposition", "attachment; filename=test.txt");

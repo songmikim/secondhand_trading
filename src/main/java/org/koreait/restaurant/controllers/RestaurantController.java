@@ -2,6 +2,7 @@ package org.koreait.restaurant.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.koreait.global.annotations.ApplyCommonController;
 import org.koreait.global.libs.Utils;
 import org.koreait.restaurant.entities.Restaurant;
 import org.koreait.restaurant.repositories.RestaurantRepository;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@ApplyCommonController
 @RequiredArgsConstructor
 @RequestMapping("/restaurant")
 public class RestaurantController {

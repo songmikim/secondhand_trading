@@ -6,6 +6,7 @@ import org.koreait.admin.global.controllers.CommonController;
 import org.koreait.admin.product.services.ProductInfoService;
 import org.koreait.file.constants.FileStatus;
 import org.koreait.file.services.FileInfoService;
+import org.koreait.global.annotations.ApplyCommonController;
 import org.koreait.global.search.ListData;
 import org.koreait.product.constants.ProductStatus;
 import org.koreait.product.entities.Product;
@@ -22,6 +23,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Controller
+@ApplyCommonController
 @RequiredArgsConstructor
 @RequestMapping("/admin/product")
 public class ProductController extends CommonController {
