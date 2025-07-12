@@ -15,15 +15,24 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 당뇨 설문 예측 처리를 담당하는 서비스 클래스
+ */
 @Lazy
 @Service
 @RequiredArgsConstructor
 @EnableConfigurationProperties(PythonProperties.class)
 public class DiabetesSurveyPredictService {
-    private final PythonProperties properties;
-    private final WebApplicationContext ctx;
-    private final ObjectMapper om;
+    private final PythonProperties properties;  // Python 가상환경 및 스크립트 경로 설정
+    private final WebApplicationContext ctx;    // Spring 프로파일 정보 조회용
+    private final ObjectMapper om;              // JSON 직렬화/역직렬화 유틸
 
+    /**
+     * 여러 설문 데이터를 Python 예측 모델에 전달하여 결과 리스트를 반환
+     *
+     * @param items 예측할 설문 데이터 목록 (각 항목은 Number 타입 리스트)
+     * @return 예측 결과 코드 리스트 (0: 비위험, 1: 위험)
+     */
     public List<Integer> process(List<List<Number>> items) {
 
         boolean isProduction = Arrays.stream(ctx.getEnvironment().getActiveProfiles()).anyMatch(s -> s.equals("prod") || s.equals("mac"));
@@ -65,10 +74,10 @@ public class DiabetesSurveyPredictService {
     }
 
     /**
-     * 설문 하나에 대한 당뇨병 설문 결과
+     * 단일 설문 항목을 기반으로 당뇨 위험 여부를 판단
      *
-     * @param item
-     * @return
+     * @param item 하나의 설문 데이터 리스트 (Number 타입)
+     * @return true면 당뇨 위험군, false면 정상
      */
     public boolean isDiabetes(List<Number> item) {
         List<Integer> results = process(List.of(item));
@@ -76,6 +85,12 @@ public class DiabetesSurveyPredictService {
         return !results.isEmpty() && results.getFirst() == 1;
     }
 
+    /**
+     * 폼 객체를 기반으로 설문 데이터를 생성하여 당뇨 위험 여부를 판단
+     *
+     * @param form 사용자 입력 폼(RequestDiabetesSurvey)
+     * @return true면 당뇨 위험군, false면 정상
+     */
     public boolean isDiabetes(RequestDiabetesSurvey form) {
         List<Number> item = new ArrayList<>();
         item.add(form.getGender().getNum());
@@ -94,7 +109,13 @@ public class DiabetesSurveyPredictService {
         return isDiabetes(item);
     }
 
-    // BMI 지수 계산
+    /**
+     * 신체 지수 지수(BMI)를 계산
+     *
+     * @param height 키(cm)
+     * @param weight 몸무게(kg)
+     * @return 계산된 BMI 값 (소수점 이하 둘째 자리 반올림)
+     */
     public double getBmi(double height, double weight){
         height = height / 100.0;
 
