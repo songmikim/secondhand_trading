@@ -169,3 +169,17 @@ secondhand/
 - 경로
 - uploads/thumbs/1/너비_높이_1.png
 - 같은 경로에 같은 너비, 높이의 썸네일이 있으면 따로 생성 X
+
+---
+
+## 구현 화면
+### 메인 화면
+![login Page](docs/images/login.png)
+
+### 오늘의 식당 화면
+![restaurant Page](docs/images/restaurant.png)
+
+### 당뇨설문 화면
+![survey Page](docs/images/survey1.png)
+![survey Page](docs/images/survey2.png)
+![result Page](docs/images/survey3.png)
