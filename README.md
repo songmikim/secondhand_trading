@@ -1,26 +1,129 @@
-# 프로젝트 소개
-- 트렌드 분석 관련 내용 및 목적
+# Secondhand 트렌드 분석 시스템
 
+## 소개
 
-# 역할 분담
-- 조원 이름, 작업 내용
+`secondhand` 프로젝트는 중고거래 플랫폼과 연동된 다양한 기능을 제공하는 Spring Boot 애플리케이션입니다. 주요 기능으로는 상품 및 회원 관리, 트렌드 분석, 식당 추천, 당뇨 고위험군 설문 테스트 등이 포함되어 있습니다.
 
-# 기능 설명
-- 설명
-- 중요한 코드가 있으면 코드와 함께 설명
-- 구현화면에 대한 이미지
+## 주요 기능
 
+* **상품 관리**: 상품 등록, 수정, 삭제, 조회 기능
+* **회원 관리**: 회원 가입, 로그인, 정보 수정 기능
+* **마이페이지**: 회원별 대시보드 제공
+* **트렌드 분석**: 키워드 수집 및 워드클라우드/차트 생성 기능 (`/trend`)
+* **식당 추천**: 오늘의 식당 목록 조회 및 검색 기능 (`/restaurant`)
+* **당뇨 고위험군 테스트**: 설문을 통한 당뇨 위험도 예측 기능 (`/survey/diabetes`)
+* **파일 업로드**: 이미지 및 파일 저장 기능
+* **관리자 기능**: 관리자 전용 기능 (`/admin`)
 
--------------------------------
-# todo
+## 기술 스택
 
+* **Backend**: Java 21, Spring Boot 3.5.0, Spring Data JPA, Spring Validation, Thymeleaf
+* **Database**: MySQL (Production), H2 (Test)
+* **ORM**: JPA, Spring Data
+* **Build Tool**: Gradle
+* **API 문서**: Springdoc OpenAPI (Swagger UI)
+* **Containerization**: Docker
 
-1. 테이블 생성 : siteUrl
-2. 파이썬파일 추가 : etc_trend.py
-# ALTER TABLE TREND ADD COLUMN siteUrl VARCHAR(1024) AFTER category;
+## 사전 요구사항
 
+* Java 21 이상 설치
+* Gradle Wrapper 사용 가능 (`./gradlew`)
+* MySQL 데이터베이스
 
-TrendInfoService
+## 설치 및 설정
+
+1. 저장소 클론
+
+   ```bash
+   git clone <repository-url>
+   cd secondhand
+   ```
+2. 환경 변수 설정
+   `application.yml` 또는 Docker 환경 변수로 다음 값을 설정하세요:
+
+   ```yaml
+   DB_URL: <your_db_url>
+   DB_USERNAME: <username>
+   DB_PASSWORD: <password>
+   SPRING_PROFILES_ACTIVE: default,prod
+   ```
+3. 의존성 설치 및 빌드
+
+   ```bash
+   ./gradlew clean build
+   ```
+
+## 실행
+
+### 로컬
+
+```bash
+java -Ddb.url=$DB_URL \
+     -Ddb.username=$DB_USERNAME \
+     -Ddb.password=$DB_PASSWORD \
+     -Dspring.profiles.active=$SPRING_PROFILES_ACTIVE \
+     -jar build/libs/secondhand-0.0.1-SNAPSHOT.jar
+```
+
+서버가 `http://localhost:3000`에서 실행됩니다.
+
+### Docker
+
+```bash
+docker build -t secondhand:latest .
+docker run -p 3000:3000 \
+  -e DB_URL=$DB_URL \
+  -e DB_USERNAME=$DB_USERNAME \
+  -e DB_PASSWORD=$DB_PASSWORD \
+  -e SPRING_PROFILES_ACTIVE=default,prod \
+  secondhand:latest
+```
+
+## API 문서
+
+* Swagger UI: `http://localhost:3000/swagger-ui.html`
+* OpenAPI Docs: `http://localhost:3000/api-docs`
+
+## 주요 엔드포인트
+
+### 식당 추천 (`/restaurant`)
+
+* `GET /restaurant/list` : 오늘의 식당 목록 조회 (뷰 화면 렌더링)
+* `GET /restaurant/search?skey={검색어}` : 검색어 기반 식당 목록 JSON 반환
+* `GET /restaurant/train` : 전체 식당 데이터 JSON 반환
+
+### 당뇨 고위험군 테스트 (`/survey/diabetes`)
+
+* `GET /survey/diabetes` 또는 `/survey/diabetes/step1` : 설문 시작 페이지
+* `POST /survey/diabetes/step2` : 1단계 설문 처리 후 2단계 이동
+* `POST /survey/diabetes/process` : 설문 최종 처리 및 예측
+* `GET /survey/diabetes/result/{seq}` : 예측 결과 조회
+
+## 프로젝트 구조
+
+```
+secondhand/
+├─ src/
+│  ├─ main/
+│  │  ├─ java/org/koreait/
+│  │  │  ├─ admin/
+│  │  │  ├─ file/
+│  │  │  ├─ member/
+│  │  │  ├─ mypage/
+│  │  │  ├─ product/
+│  │  │  ├─ restaurant/
+│  │  │  ├─ survey/diabetes/
+│  │  │  ├─ trend/
+│  │  │  ├─ global/
+│  │  │  └─ validators/
+│  ├─ resources/
+│  │  ├─ application.yml
+│  │  └─ templates/
+├─ build.gradle
+├─ settings.gradle
+├─ Dockerfile
+└─ README.md
+```
 
 --------------------------------------
 
