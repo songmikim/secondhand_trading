@@ -18,7 +18,7 @@
 ## 기술 스택
 
 * **Backend**: Java 21, Spring Boot 3.5.0, Spring Data JPA, Spring Validation, Thymeleaf
-* **Database**: MySQL (Production), H2 (Test)
+* **Database**: MySQL 
 * **ORM**: JPA, Spring Data
 * **Build Tool**: Gradle
 * **API 문서**: Springdoc OpenAPI (Swagger UI)
