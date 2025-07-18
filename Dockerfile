@@ -1,4 +1,4 @@
-FROM ksm0200/ubuntu:1.0.0
+FROM daeun01/ubuntu:1.0.0
 ARG JAR_PATH=build/libs/secondhand-0.0.1-SNAPSHOT.jar
 ARG PORT=3000
 COPY ${JAR_PATH} app.jar
