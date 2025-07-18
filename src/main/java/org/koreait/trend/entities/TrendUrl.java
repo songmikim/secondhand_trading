@@ -1,14 +1,14 @@
 package org.koreait.trend.entities;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
 @Data
-@Table("TREND_URL")
+@Entity
 public class TrendUrl {
     @Id
-    @Column("siteUrl")
+    @Column(length = 150)
     private String siteUrl;
 }

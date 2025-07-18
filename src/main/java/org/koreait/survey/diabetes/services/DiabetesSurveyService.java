@@ -40,10 +40,10 @@ public class DiabetesSurveyService {
         item.setBmi(bmi);
         // 6. 로그인 상태면 회원 시퀀스 설정
         if(memberUtil.isLogin()){
-            item.setMemberSeq(memberUtil.getMember().getSeq());
+            item.setMember(member);
         }
         // 7. DB에 저장
-        repository.save(item);
+        repository.saveAndFlush(item);
         // 8. 저장된 엔티티를 다시 조회하여 반환
         return repository.findById(item.getSeq()).orElse(null);
     }

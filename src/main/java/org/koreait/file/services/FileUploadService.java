@@ -75,7 +75,7 @@ public class FileUploadService {
             item.setExtension(extension);
             item.setContentType(contentType);
 
-            repository.save(item);
+            repository.saveAndFlush(item);
             // 1. 업로드한 파일 정보를 DB에 기록 E
 
             // 2. seq, extension으로 서버에 올릴 경로 만들어주고 업로드 처리
@@ -96,7 +96,7 @@ public class FileUploadService {
             } catch (IOException e) {
                 // 업로드 실패시 저장된 DB 데이터 삭제
                 repository.deleteById(seq);
-
+                repository.flush();
                 e.printStackTrace();
             }
         }
@@ -115,6 +115,6 @@ public class FileUploadService {
 
         items.forEach(item -> item.setDone(true));
 
-        repository.saveAll(items);
+        repository.saveAllAndFlush(items);
     }
 }
