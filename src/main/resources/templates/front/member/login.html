@@ -27,6 +27,9 @@
             <button type="submit" class="btn solid" th:text="#{로그인}">로그인</button>
             <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
+            <a th:href="${kakaoLoginUrl}" class="kakao_btn">
+                <img th:src="@{/common/images/kakao_login.png}" alt="카카오 로그인 버튼">
+            </a>
             <div class="button-group">
                 <a th:href="@{/member/findid}" class="btn outline" th:text="#{아이디_비밀번호_찾기}">아이디/비밀번호 찾기</a>
                 <a th:href="@{/member/join}" class="btn outline" th:text="#{회원가입}">회원가입</a>

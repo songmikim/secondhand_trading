@@ -1,7 +1,7 @@
 package org.koreait.product.services;
 
 import lombok.RequiredArgsConstructor;
-import org.koreait.admin.product.controllers.RequestProduct;
+import org.koreait.product.controllers.RequestProduct;
 import org.koreait.file.services.FileUploadService;
 import org.koreait.product.entities.Product;
 import org.koreait.product.repositories.ProductRepository;
@@ -33,7 +33,7 @@ public class ProductUpdateService {
         item.setSalePrice(form.getSalePrice());
         item.setDescription(form.getDescription());
 
-        repository.save(item);
+        repository.saveAndFlush(item);
 
         // 파일 업로드 완료 처리
         uploadService.processDone(form.getGid());

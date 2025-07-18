@@ -1,30 +1,42 @@
 package org.koreait.file.entities;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import org.koreait.global.entities.BaseEntity;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Data
-@Table("FILE_INFO")
+@Entity
+@Table(indexes = {
+        @Index(name="idx_fileinfo_gid1", columnList = "gid, createdAt"),
+        @Index(name="idx_fileinfo_gid2", columnList = "gid, done, createdAt"),
+        @Index(name="idx_fileinfo_location1", columnList = "gid, location, createdAt"),
+        @Index(name="idx_fileinfo_location2", columnList = "gid, location, done, createdAt")
+})
 public class FileInfo extends BaseEntity {
     @Id
+    @GeneratedValue
     private Long seq;
+
+    @Column(length = 45, nullable = false)
     private String gid;
+
+    @Column(length = 45)
     private String location;
 
-    @Column("fileName")
+    @Column(length = 150, nullable = false)
     private String fileName;
+
+    @Column(length = 60)
     private String extension; // 확장자
 
-    @Column("contentType")
+    @Column(length = 100)
     private String contentType; // 파일 종류
 
     @CreatedBy
-    @Column("createdBy")
     private String createdBy; // 업로드한 로그인 사용자의 이메일
 
     private boolean done; // 파일 그룹 작업이 완료 되었는지 여부
