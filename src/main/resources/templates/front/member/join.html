@@ -14,7 +14,7 @@
             <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
 
             <div th:if="*{social}">
-                <th:block th:text="${#messages.msg('socialType.' + socialType)}"> 회원가입</th:block>
+                <th:block th:text="*{#messages.msg(socialType)}"></th:block> 회원가입
             </div>
             <div class="inline-inputs">
                 <input type="text" name="email" th:field="*{email}" th:placeholder="#{이메일}" />
