@@ -32,6 +32,6 @@ public class RequestJoin {
     private String socialToken;
 
     public boolean isSocial(){
-        return socialType != null && socialType != SocialType.NONE & StringUtils.hasText(socialToken);
+        return socialType != null && socialType != SocialType.NONE && StringUtils.hasText(socialToken);
     }
 }
