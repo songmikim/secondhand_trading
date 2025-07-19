@@ -13,8 +13,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,11 +53,11 @@ public class FileInfoService {
         BooleanBuilder andBuilder = new BooleanBuilder();
         andBuilder.and(fileInfo.gid.eq(gid));
 
-        if(StringUtils.hasText(location)){
+        if (StringUtils.hasText(location)) {
             andBuilder.and(fileInfo.location.eq(location));
         }
 
-        if(status != FileStatus.ALL){
+        if (status != FileStatus.ALL) {
             andBuilder.and(fileInfo.done.eq(status == FileStatus.DONE));
         }
 
@@ -71,27 +69,12 @@ public class FileInfoService {
         return items;
     }
 
-    public List<FileInfo> getList(String gid, String location){
-        return getList(gid, location, FileStatus.DONE); // 그룹파일 완료 파일
+    public List<FileInfo> getList(String gid, String location) {
+        return getList(gid, location, FileStatus.DONE); // 그룹파일 완료 파일만
     }
 
-    public List<FileInfo> getList(String gid){
-        return getList(gid, null); // 그룹파일 완료 파일
-    }
-
-    private FileInfo mapper(ResultSet rs, int i) throws SQLException {
-        FileInfo item = new FileInfo();
-        item.setSeq(rs.getLong("seq"));
-        item.setGid(rs.getString("gid"));
-        item.setLocation(rs.getString("location"));
-        item.setFileName(rs.getString("fileName"));
-        item.setContentType(rs.getString("contentType"));
-        item.setCreatedBy(rs.getString("createdBy"));
-        item.setExtension(rs.getString("extension"));
-        item.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
-
-        return item;
-
+    public List<FileInfo> getList(String gid) {
+        return getList(gid, null);
     }
 
     /**

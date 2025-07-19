@@ -5,10 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.koreait.member.controllers.RequestLogin;
-import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.util.StringUtils;
@@ -62,16 +59,17 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             }
         }
 
-        if(exception instanceof DisabledException){// 탈퇴한 회원인 경우
+        if (exception instanceof DisabledException) { // 탈퇴한 회원인 경우
             globalErrors.add("Authentication.disabled");
-        } else if (exception instanceof AccountExpiredException) {
+        } else if (exception instanceof AccountExpiredException) { // 계정 만료 회원인 경우
             globalErrors.add("Authentication.account.expired");
-        }else if(exception instanceof LockedException){
+        } else if (exception instanceof LockedException) { // 계정이 잠겨 있는 경우
             globalErrors.add("Authentication.account.locked");
-        }else if(exception instanceof BadCredentialsException){ // 비밀번호가 만료된 경우
+        } else if (exception instanceof CredentialsExpiredException) { // 비밀번호가 만료된 경우
             // 비밀번호 변경 페이지로 이동
             response.sendRedirect(request.getContextPath() + "/member/password");
             return;
+
         }
 
         session.setAttribute("requestLogin", form);
