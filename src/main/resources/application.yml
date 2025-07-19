@@ -2,6 +2,7 @@ server:
   port: 3000
   servlet:
     session.cookie.name: b8a5f3fb
+  forward-headers-strategy: native
 
 spring:
   # 데이터베이스 설정

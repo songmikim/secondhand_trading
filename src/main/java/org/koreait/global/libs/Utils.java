@@ -180,11 +180,35 @@ public class Utils {
     * @retrun
     * */
     public String getUrl(String url){
-        String protocol = request.getScheme();  // http, https
-        String domain = request.getServerName();
-        int _port = request.getServerPort();
-        String port = List.of(80, 443).contains(_port) ? "":":" + _port;
+        //String protocol = request.getScheme();  // http, https
+        String protocol = request.getHeader("X-Forwarded-Proto");
+        protocol = StringUtils.hasText(protocol) ? protocol.split(",")[0].trim() : request.getScheme();
 
+        String hostHeader = request.getHeader("X-Forwarded-Host");
+        String portHeader = request.getHeader("X-Forwarded-Port");
+
+        String domain = request.getServerName();
+//        int _port = request.getServerPort();
+//        String port = List.of(80, 443).contains(_port) ? "":":" + _port;
+        int portNum = request.getServerPort();
+
+        if (StringUtils.hasText(hostHeader)) {
+            String firstHost = hostHeader.split(",")[0].trim();
+            String[] parts = firstHost.split(":");
+            domain = parts[0];
+
+            if (StringUtils.hasText(portHeader)) {
+                try {
+                    portNum = Integer.parseInt(portHeader.split(",")[0].trim());
+                } catch (NumberFormatException ignored) {}
+            } else if (parts.length > 1) {
+                try {
+                    portNum = Integer.parseInt(parts[1]);
+                } catch (NumberFormatException ignored) {}
+            }
+        }
+
+        String port = List.of(80, 443).contains(portNum) ? "" : ":" + portNum;
         return String.format("%s://%s%s%s%s", protocol, domain, port, request.getContextPath(), url);
     }
 }

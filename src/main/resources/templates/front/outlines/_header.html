@@ -9,9 +9,12 @@
                 </a>
             </div>
             <nav class="gnb">
+
+                <th:block th:if="${isLogin}">
+                    <a th:href="@{/mypage}" th:text="${#messages.msg('LOGIN_MSG', loggedMember.name, loggedMember.email)}"></a>
+                </th:block>
                 <a th:href="@{/survey/diabetes}">당뇨 테스트</a>
                 <a th:href="@{/restaurant}">오늘의 식당</a>
-                <a th:href="@{/mypage}">마이페이지</a>
                 <th:block th:if="${isLogin}">
                     <a th:href="@{/logout}">로그아웃</a>
                 </th:block>
