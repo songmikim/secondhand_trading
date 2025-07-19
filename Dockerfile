@@ -13,7 +13,9 @@ ENV PYTHON_BASE=/python_project/.venv/bin
 ENV PYTHON_TREND=/python_project/source
 ENV PYTHON_BASE2=/python_project/.venv/bin
 ENV PYTHON_RESTAURANT=/python_project/source
+ENV KAKAO_API_KEY=2ccabb1a6e951cdef4254a969782cb2f
+ENV DDL_AUTO=create
 
-ENTRYPOINT ["java", "-Ddb.password=${DB_PASSWORD}","-Ddb.url=${DB_URL}", "-Ddb.username=${DB_USERNAME}", "-Dfile.path=/uploads", "-Dfile.url=/uploads", "-Dpython.base=${PYTHON_BASE}", "-Dpython.trend=${PYTHON_TREND}", "-Dpython.base2=${PYTHON_BASE2}", "-Dpython.restaurant=${PYTHON_RESTAURANT}", "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Ddb.password=${DB_PASSWORD}","-Ddb.url=${DB_URL}", "-Ddb.username=${DB_USERNAME}", "-Dfile.path=/uploads", "-Dfile.url=/uploads", "-Dpython.base=${PYTHON_BASE}", "-Dpython.trend=${PYTHON_TREND}", "-Dpython.base2=${PYTHON_BASE2}", "-Dpython.restaurant=${PYTHON_RESTAURANT}","-Dddl.auto=${DDL_AUTO}","-Dkakao.apikey=${KAKAO_API_KEY}", "-Dspring.profiles.active=${SPRING_PROFILES_ACTIVE}", "-jar", "app.jar"]
 
 EXPOSE ${PORT}

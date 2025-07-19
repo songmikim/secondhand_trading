@@ -174,13 +174,13 @@ public class Utils {
 
         return String.format("<img src='%s'>", url);
     }
-    /*
-    * 전체 주소 : https://site123.com:3000/member/...
-    * @param url
-    * @retrun
-    * */
-    public String getUrl(String url){
-        //String protocol = request.getScheme();  // http, https
+
+    /**
+     * 전체 주소 : https://site123.com:3000/member/....
+     * @param url
+     * @return
+     */
+    public String getUrl(String url) {
         String protocol = request.getHeader("X-Forwarded-Proto");
         protocol = StringUtils.hasText(protocol) ? protocol.split(",")[0].trim() : request.getScheme();
 
@@ -188,8 +188,6 @@ public class Utils {
         String portHeader = request.getHeader("X-Forwarded-Port");
 
         String domain = request.getServerName();
-//        int _port = request.getServerPort();
-//        String port = List.of(80, 443).contains(_port) ? "":":" + _port;
         int portNum = request.getServerPort();
 
         if (StringUtils.hasText(hostHeader)) {
@@ -209,6 +207,7 @@ public class Utils {
         }
 
         String port = List.of(80, 443).contains(portNum) ? "" : ":" + portNum;
+
         return String.format("%s://%s%s%s%s", protocol, domain, port, request.getContextPath(), url);
     }
 }
