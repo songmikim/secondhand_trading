@@ -81,7 +81,7 @@ docker run -p 3000:3000 \
 
 ## API 문서
 
-* Swagger UI: `http://localhost:3000/swagger-ui.html`
+* Swagger UI: `http://localhost:3000/swagger-ui/index.html#/`
 * OpenAPI Docs: `http://localhost:3000/api-docs`
 
 ## 주요 엔드포인트
