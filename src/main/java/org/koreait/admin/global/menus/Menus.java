@@ -19,6 +19,13 @@ public class Menus {
                 new Menu("list", "회원목록", "/admin/member")
         ));
 
+        // 게시판 관리 메뉴
+        menus.put("board", List.of(
+                new Menu("List", "게시판 목록", "/admin/board"),
+                new Menu("register", "게시판 등록" ,"/admin/board/register"),
+                new Menu("posts", "게시글 관리", "/admin/board/posts")
+        ));
+
         // 트렌드 관리 메뉴
         menus.put("trend", List.of(
                 new Menu("news", "뉴스", "/admin/trend"),
