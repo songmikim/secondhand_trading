@@ -29,7 +29,7 @@
         <label for="active-true">사용</label>
 
         <input type="radio" name="active" value="false" th:field="*{active}" id="active-false">
-        <label for="active-true">미사용</label>
+        <label for="active-false">미사용</label>
       </td>
     </tr>
     <tr>
@@ -51,37 +51,37 @@
         <label for="editor-true">사용</label>
 
         <input type="radio" name="editor" value="false" th:field="*{editor}" id="editor-false">
-        <label for="editor-true">미사용</label>
+        <label for="editor-false">미사용</label>
       </td>
     </tr>
     <tr>
       <th>이미지 업로드</th>
       <td>
         <input type="radio" name="imageUpload" value="true" th:field="*{imageUpload}" id="imageUpload-true">
-        <label for="editor-true">사용</label>
+        <label for="imageUpload-true">사용</label>
 
         <input type="radio" name="imageUpload" value="false" th:field="*{imageUpload}" id="imageUpload-false">
-        <label for="imageUpload-true">미사용</label>
+        <label for="imageUpload-false">미사용</label>
       </td>
     </tr>
     <tr>
       <th>파일 첨부</th>
       <td>
-        <input type="radio" name="attachFile" value="true" th:field="*{attachFile}" id="attachFile-true">
+        <input type="radio" name="attachFile" value="true" id="attachFile-true" th:field="*{attachFile}">
         <label for="attachFile-true">사용</label>
 
-        <input type="radio" name="attachFile" value="false" th:field="*{attachFile}" id="attachFile-false">
-        <label for="attachFile-true">미사용</label>
+        <input type="radio" name="attachFile" value="false" id="attachFile-false" th:field="*{attachFile}">
+        <label for="attachFile-false">미사용</label>
       </td>
     </tr>
     <tr>
       <th>댓글</th>
       <td>
-        <input type="radio" name="comment" value="true" th:field="*{comment}" id="comment-true">
+        <input type="radio" name="comment" value="true" id="comment-true" th:field="*{comment}">
         <label for="comment-true">사용</label>
 
-        <input type="radio" name="comment" value="false" th:field="*{comment}" id="comment-false">
-        <label for="comment-true">미사용</label>
+        <input type="radio" name="comment" value="false" id="comment-false" th:field="*{comment}">
+        <label for="comment-false">미사용</label>
       </td>
     </tr>
   </table>
@@ -92,27 +92,29 @@
     <tr>
       <th width="150">분류</th>
       <td>
-        <textarea name="category" th:text="*{category}" placeholder="분류 여러개를 개행해서 입력하세요."></textarea>
+        <textarea name="category" th:text="*{category}" placeholder="분류 여러개는 엔터키로 줄개행 해서 입력"></textarea>
       </td>
     </tr>
   </table>
+
   <h2>스킨설정</h2>
-  <table class="table-cols">
+  <table class="table-cols mb30">
     <tr>
       <th width="150">스킨 선택</th>
       <td>
-        <input type="redio" name="skin"  value="default" id="skin-default" th:field="*{skin}">
+        <input type="radio" name="skin" value="default" id="skin-default" th:field="*{skin}">
         <label for="skin-default">기본 스킨</label>
 
-        <input type="redio" name="skin"  value="default" id="skin-gallery" th:field="*{skin}">
+        <input type="radio" name="skin" value="gallery" id="skin-gallery" th:field="*{skin}">
         <label for="skin-gallery">갤러리 스킨</label>
       </td>
     </tr>
   </table>
+
   <h2>권한설정</h2>
   <table class="table-cols mb30">
     <tr>
-      <th width="150">목록권한</th>
+      <th width="150">목록 권한</th>
       <td>
         <input type="radio" name="listAuthority" value="ALL" th:field="*{listAuthority}" id="listAuthority-ALL">
         <label for="listAuthority-ALL">비회원 + 회원 + 관리자</label>
@@ -124,6 +126,7 @@
         <label for="listAuthority-ADMIN">관리자</label>
       </td>
     </tr>
+
     <tr>
       <th width="150">글보기 권한</th>
       <td>
@@ -131,12 +134,13 @@
         <label for="viewAuthority-ALL">비회원 + 회원 + 관리자</label>
 
         <input type="radio" name="viewAuthority" value="MEMBER" th:field="*{viewAuthority}" id="viewAuthority-MEMBER">
-        <label for="listAuthority-MEMBER">회원 + 관리자</label>
+        <label for="viewAuthority-MEMBER">회원 + 관리자</label>
 
         <input type="radio" name="viewAuthority" value="ADMIN" th:field="*{viewAuthority}" id="viewAuthority-ADMIN">
         <label for="viewAuthority-ADMIN">관리자</label>
       </td>
     </tr>
+
     <tr>
       <th width="150">글작성 권한</th>
       <td>
@@ -150,6 +154,7 @@
         <label for="writeAuthority-ADMIN">관리자</label>
       </td>
     </tr>
+
     <tr>
       <th width="150">댓글작성 권한</th>
       <td>

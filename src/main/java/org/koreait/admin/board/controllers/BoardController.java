@@ -2,24 +2,30 @@ package org.koreait.admin.board.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.koreait.admin.board.validators.BoardValidator;
+import org.koreait.admin.board.services.configs.BoardConfigUpdateService;
+import org.koreait.admin.board.validators.BoardConfigValidator;
 import org.koreait.admin.global.controllers.CommonController;
+import org.koreait.board.entities.Board;
+import org.koreait.board.services.configs.BoardConfigInfoService;
+import org.koreait.global.annotations.ApplyCommonController;
+import org.koreait.global.search.CommonSearch;
+import org.koreait.global.search.ListData;
 import org.koreait.member.constants.Authority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@Controller("adminBoardController")
+@ApplyCommonController
 @RequiredArgsConstructor
 @RequestMapping("/admin/board")
 public class BoardController extends CommonController {
 
-    private final BoardValidator boardValidator;
+    private final BoardConfigValidator boardConfigValidator;
+    private final BoardConfigUpdateService configUpdateService;
+    private final BoardConfigInfoService configInfoService;
 
     @Override
     @ModelAttribute("mainCode")
@@ -32,8 +38,12 @@ public class BoardController extends CommonController {
      * @return
      */
     @GetMapping({"", "/list"})
-    public String list(Model model) {
+    public String list(@ModelAttribute CommonSearch search, Model model) {
         commonProcess("list", model);
+
+        ListData<Board> data = configInfoService.getList(search);
+        model.addAttribute("items", data.getItems());
+        model.addAttribute("pagination", data.getPagination());
 
         return "admin/board/list";
     }
@@ -60,17 +70,29 @@ public class BoardController extends CommonController {
         return "admin/board/register";
     }
 
+    @GetMapping("/update/{bid}")
+    public String update(@PathVariable("bid") String bid, Model model) {
+        commonProcess("update", model);
+        RequestBoard item = configInfoService.getForm(bid);
+
+        model.addAttribute("requestBoard", item);
+
+        return "admin/board/update";
+    }
+
     @PostMapping("/save")
     public String save(@Valid RequestBoard form, Errors errors, Model model) {
         String mode = form.getMode();
         mode = StringUtils.hasText(mode) ? mode : "register";
         commonProcess(mode, model);
 
-        boardValidator.validate(form, errors);
+        boardConfigValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             return "admin/board/" + mode;
         }
+
+        configUpdateService.process(form);
 
         return "redirect:/admin/board";
     }
@@ -85,9 +107,12 @@ public class BoardController extends CommonController {
         code = StringUtils.hasText(code) ? code : "list";
         if (code.equals("register")) {
             pageTitle =  "게시판 등록";
-        } else {
+        } else if(code.equals("update")){
+            pageTitle = "게시판 수정";
+        }else {
             pageTitle = "게시판 목록";
         }
+
 
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("subCode", code);
