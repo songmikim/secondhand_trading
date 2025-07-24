@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+
+<main layout:fragment="content">
+    <th:block th:replace="~{front/board/_board_title::common}"></th:block>
+    <th:block th:replace="~{front/board/_items::common}"></th:block>
+</main>
+</html>
