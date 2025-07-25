@@ -23,8 +23,8 @@ import java.util.UUID;
 public class BoardController {
 
     private final Utils utils;
-    private final BoardConfigInfoService configInfoService;
     private final MemberUtil memberUtil;
+    private final BoardConfigInfoService configInfoService;
 
     @ModelAttribute("board")
     public Board getBoard() {
@@ -41,12 +41,12 @@ public class BoardController {
 
     // 게시글 작성
     @GetMapping("/write/{bid}")
-    public String write(@PathVariable("bid") String bid, Model model, RequestBoard form) {
+    public String write(@PathVariable("bid") String bid, RequestBoard form, Model model) {
         commonProcess(bid, "write", model);
         form.setBid(bid);
         form.setGid(UUID.randomUUID().toString());
 
-        if(memberUtil.isLogin()) {
+        if (memberUtil.isLogin()) {
             form.setPoster(memberUtil.getMember().getName());
         } else {
             form.setGuest(true);
@@ -98,20 +98,20 @@ public class BoardController {
 
         String skin = board.getSkin();
         addCss.add("board/style"); // 스킨과 상관없는 공통 스타일
-        addCss.add(String.format("board/%s/style", skin));  // 스킨별 스타일
+        addCss.add(String.format("board/%s/style", skin)); // 스킨별 스타일
 
         addScript.add("board/common"); // 스킨 상관없는 공통 자바스크립트
 
-        if(mode.equals("write") || mode.equals("update")) { // 등록, 수정
-            if(board.isAttachFile() || (board.isImageUpload() && board.isEditor())) {
+        if (mode.equals("write") || mode.equals("update")) { // 등록, 수정
+            if (board.isAttachFile() || (board.isImageUpload() && board.isEditor())) {
                 addCommonScript.add("fileManager");
             }
 
-            if(board.isEditor()) { // 에디터를 사용하는 경우, CKEDITOR5 스크립트 추가
+            if (board.isEditor()) { // 에디터를 사용하는 경우, CKEDITOR5 스크립트를 추가
                 addCommonScript.add("ckeditor5/ckeditor");
             }
 
-            addScript.add(String.format("board/%s/from", skin));  // 스킨별 양식 관련 자바스크립트
+            addScript.add(String.format("board/%s/form", skin)); // 스킨별 양식 관련 자바스크립트
         }
 
         model.addAttribute("addCommonScript", addCommonScript);
