@@ -37,7 +37,7 @@
     <dl>
         <dt th:text="#{글내용}"></dt>
         <dd>
-            <textarea name="content" id="content"></textarea>
+            <textarea name="content" id="content" th:field="*{content}"></textarea>
 
             <th:block th:if="${board.editor && board.imageUpload }">
                 <div class="uploaded-files editor-files"></div>

@@ -5,6 +5,12 @@ server:
   forward-headers-strategy: native
 
 spring:
+  # 레디스 설정
+  data:
+    redis:
+      host: ${redis.host}
+      port: ${redis.port}
+
   # 데이터베이스 설정
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver

@@ -21,7 +21,6 @@ public class SecurityConfig {
         /* 인증 설정 - 로그인, 로그아웃 S */
         http.formLogin(c -> {
             c.loginPage("/member/login")
-                    .loginProcessingUrl("/member/login")
                     .usernameParameter("email")
                     .passwordParameter("password")
                     .successHandler(new LoginSuccessHandler())
@@ -59,7 +58,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(c -> {
             c.requestMatchers("/mypage/**", "/survey/diabetes/**").authenticated() // 회원 전용
                     .requestMatchers("/member/join", "/member/login").anonymous() // 비회원 전용
-                    //.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                    .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                     .anyRequest().permitAll();
         });
 

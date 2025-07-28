@@ -8,6 +8,28 @@ window.addEventListener("DOMContentLoaded", function() {
         })
     // 위지윅 에디터 로드 E
 
+    // 파일 삭제 이벤트 처리
+    const { fileManager , insertEditorImage } = commonLib;
+    const removeEls = document.querySelectorAll(".file-items .remove");
+    removeEls.forEach(el => {
+        el.addEventListener("click", function() {
+            if (!confirm('정말 삭제하겠습니까?')) {
+                return;
+            }
+
+            const { seq } = this.dataset;
+            fileManager.delete(seq);
+        });
+    });
+
+    // 이미지를 에디터 본문 추가 이벤트 처리
+    const insertEditorEls = document.querySelectorAll(".file-items .insert-editor");
+    insertEditorEls.forEach(el => {
+        el.addEventListener("click", function() {
+            const { fileUrle } = this.dataset;
+            insertEditorImage(fileUrl);
+        })
+    })
 });
 
 

@@ -6,6 +6,7 @@ import org.koreait.global.entities.BaseEntity;
 import org.koreait.member.constants.Authority;
 import org.koreait.member.social.constants.SocialType;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
         @Index(name = "idx_member_mobile", columnList = "mobile"),
         @Index(name = "idx_member_social", columnList = "socialType, socialToken")
 })
-public class Member extends BaseEntity {
+public class Member extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue
     private Long seq;

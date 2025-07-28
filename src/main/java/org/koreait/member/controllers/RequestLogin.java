@@ -2,10 +2,11 @@ package org.koreait.member.controllers;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class RequestLogin {
+public class RequestLogin implements Serializable {
     private String email;
     private String password;
     private boolean autoLogin;
