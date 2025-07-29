@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.koreait.global.entities.BaseEntity;
 import org.koreait.member.constants.Authority;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 @Data
 @Entity
@@ -32,7 +35,7 @@ public class Board extends BaseEntity implements Serializable {
     private boolean imageUpload; // 에디터에 이미지 추가 기능 사용 여부
     private boolean attachFile; // 파일 첨부 기능 사용 여부
     private boolean comment; // 댓글 사용 여부
-    private boolean afterWritingRedirect;  // 글 작성 후 이동 방향 - false : 게시글 목록, true : 게시글 상세
+    private boolean afterWritingRedirect; // 글 작성 후 이동 방향 - false : 게시글 목록,  true : 게시글 상세
 
     @Enumerated(EnumType.STRING)
     private Authority listAuthority; // 목록 권한, ALL - 전체, MEMBER - 회원, ADMIN - 관리자
@@ -46,4 +49,13 @@ public class Board extends BaseEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private Authority commentAuthority; // 댓글 작성 권한
 
+    public List<String> getCategories() {
+        if (!StringUtils.hasText(category)) {
+            return List.of();
+        }
+
+        String[] categories = category.replaceAll("\r", "").split("\n");
+
+        return Arrays.stream(categories).filter(StringUtils::hasText).toList();
+    }
 }

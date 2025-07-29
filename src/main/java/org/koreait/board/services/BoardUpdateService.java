@@ -59,7 +59,7 @@ public class BoardUpdateService {
         item.setSecret(form.isSecret());
 
         if (form.isGuest()) {
-            item.setGuestPw(encoder.encode(item.getGuestPw()));
+            item.setGuestPw(encoder.encode(form.getGuestPw()));
         }
 
         if (memberUtil.isAdmin()) {
@@ -67,6 +67,8 @@ public class BoardUpdateService {
         } else {
             item.setNotice(false); // 공지글은 관리자만 설정 가능
         }
+
+        item.setPlainText(!board.isEditor());
 
         boardDataRepository.saveAndFlush(item);
 

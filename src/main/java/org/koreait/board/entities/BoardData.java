@@ -2,10 +2,12 @@ package org.koreait.board.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.koreait.file.entities.FileInfo;
 import org.koreait.global.entities.BaseEntity;
 import org.koreait.member.entities.Member;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
@@ -49,4 +51,15 @@ public class BoardData extends BaseEntity implements Serializable {
     private String ip; // 작성자 IP 주소
 
     private String ua; // User-Agent 정보, 작성자의 브라우저 정보
+
+    private boolean plainText; // true : 에디터(HTML)를 사용하지 않은 일반 텍스트 게시글
+
+    @Transient
+    private List<FileInfo> editorImages;
+
+    @Transient
+    private List<FileInfo> attachFiles;
+
+    @Transient
+    private boolean guest;
 }

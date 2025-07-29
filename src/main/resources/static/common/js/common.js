@@ -60,7 +60,7 @@ var commonLib = {
 
 /* 에디터 공통 */
 commonLib.loadEditor = function(el, height = 350) {
-    if (!ClassicEditor || !el) {
+    if (typeof ClassicEditor === 'undefined' || !ClassicEditor || !el) {
         return Promise.resolve();
     }
 
@@ -85,8 +85,8 @@ commonLib.loadEditor = function(el, height = 350) {
     });
 };
 
-/*
-* source : 이미지 경로, 배열 또는 문자열(경로1개)
+/**
+* source : 이미지 경로, 배열 또는 문자열(경로 1개)
 *
 */
 commonLib.insertEditorImage = function(source, editor) {
@@ -97,7 +97,8 @@ commonLib.insertEditorImage = function(source, editor) {
 
     editor.execute('insertImage', { source })
 
-}
+};
+
 
 /* window.alert를 SweetAlert2로 교체 */
 window.alert = function(message, callback) {

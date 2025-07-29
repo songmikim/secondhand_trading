@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="skin" th:object="${requestBoard}">
+    <dl th:if="${!board.categories.isEmpty()}">
+        <dt th:text="#{분류}"></dt>
+        <dd>
+            <select name="category" th:field="*{category}">
+                <option th:each="c : ${board.categories}" th:value="${c}" th:text="${c}"></option>
+            </select>
+        </dd>
+    </dl>
     <dl>
         <dt th:text="#{작성자}"></dt>
         <dd>
@@ -40,7 +48,14 @@
             <textarea name="content" id="content" th:field="*{content}"></textarea>
 
             <th:block th:if="${board.editor && board.imageUpload }">
-                <div class="uploaded-files editor-files"></div>
+                <div class="uploaded-files editor-files">
+                    <span th:if="*{editorImages != null && !editorImages.isEmpty()}"
+                          th:each="item : *{editorImages}" th:object="${item}" class="file-items" th:id="*{'file-' + seq}">
+                        <a th:href="@{/file/download/{seq}(seq=*{seq})}" th:text="*{fileName}"></a>
+                        <i class="xi-upload insert-editor" th:data-file-url="*{fileUrl}"></i>
+                        <i class="xi-close remove" th:data-seq="*{seq}"></i>
+                    </span>
+                </div>
                 <button type="button" class="file-upload-btn" th:data-gid="*{gid}" data-location="editor" data-image-only="true" th:text="#{이미지_추가}"></button>
             </th:block>
 
@@ -50,7 +65,13 @@
     <dl th:if="${board.attachFile}">
         <dt th:text="#{파일첨부}"></dt>
         <dd>
-            <div class="uploaded-files attach-files"></div>
+            <div class="uploaded-files attach-files">
+                <span th:if="*{attachFiles != null && !attachFiles.isEmpty()}"
+                      th:each="item : *{attachFiles}" th:object="${item}" class="file-items" th:id="*{'file-' + seq}">
+                    <a th:href="@{/file/download/{seq}(seq=*{seq})}" th:text="*{fileName}"></a>
+                    <i class="xi-close remove" th:data-seq="*{seq}"></i>
+                </span>
+            </div>
             <button type="button" class="file-upload-btn" th:data-gid="*{gid}" data-location="attach" th:text="#{파일업로드}"></button>
         </dd>
     </dl>

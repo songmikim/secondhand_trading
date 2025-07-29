@@ -27,6 +27,7 @@ public class RequestBoard {
     private boolean imageUpload; // 에디터에 이미지 추가 기능 사용 여부
     private boolean attachFile; // 파일 첨부 기능 사용 여부
     private boolean comment; // 댓글 사용 여부
+    private boolean afterWritingRedirect; // 글 작성 후 이동 방향 - false : 게시글 목록,  true : 게시글 상세
 
     private Authority listAuthority; // 목록 권한, ALL - 전체, MEMBER - 회원, ADMIN - 관리자
 
