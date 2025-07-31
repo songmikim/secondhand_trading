@@ -4,11 +4,11 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.StringExpression;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.koreait.admin.product.controllers.RequestProduct;
 import org.koreait.file.services.FileInfoService;
 import org.koreait.global.search.ListData;
 import org.koreait.global.search.Pagination;
 import org.koreait.product.controllers.ProductSearch;
-import org.koreait.product.controllers.RequestProduct;
 import org.koreait.product.entities.Product;
 import org.koreait.product.entities.QProduct;
 import org.koreait.product.exceptions.ProductNotFoundException;
@@ -109,7 +109,7 @@ public class ProductInfoService {
         }
         // 판매가, 소비자가 검색 처리 E
 
-        Pageable pageable = PageRequest.of(page -1, limit, Sort.by(desc("createdAt")));
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
         Page<Product> data = repository.findAll(andBuilder, pageable);
         List<Product> items = data.getContent();
         long total = data.getTotalElements();
@@ -134,5 +134,4 @@ public class ProductInfoService {
         item.setEditorImages(fileInfoService.getList(gid, "editor"));
         /* 업로드한 파일 처리 E */
     }
-
 }

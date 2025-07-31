@@ -1,4 +1,4 @@
-package org.koreait.product.controllers;
+package org.koreait.admin.product.controllers;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

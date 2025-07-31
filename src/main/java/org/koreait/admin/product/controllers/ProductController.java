@@ -9,7 +9,6 @@ import org.koreait.global.annotations.ApplyCommonController;
 import org.koreait.global.search.ListData;
 import org.koreait.product.constants.ProductStatus;
 import org.koreait.product.controllers.ProductSearch;
-import org.koreait.product.controllers.RequestProduct;
 import org.koreait.product.entities.Product;
 import org.koreait.product.services.ProductInfoService;
 import org.koreait.product.services.ProductUpdateService;

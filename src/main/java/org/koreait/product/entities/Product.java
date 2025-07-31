@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(indexes = {
-        @Index(name = "idx_product_created_at", columnList = "createdAt DESC")
+        @Index(name="idx_product_created_at", columnList = "createdAt DESC")
 })
 public class Product extends BaseEntity {
     @Id
@@ -21,17 +21,16 @@ public class Product extends BaseEntity {
     @Column(length=45, nullable = false)
     private String gid;
 
-    @Column(length = 100, nullable = false)
+    @Column(length=100, nullable = false)
     private String name;
 
-    @Column(length = 50)
+    @Column(length=50)
     private String category;
 
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
 
     private int consumerPrice;
-
 
     private int salePrice;
 
@@ -46,5 +45,4 @@ public class Product extends BaseEntity {
 
     @Transient
     private List<FileInfo> editorImages;
-
 }
